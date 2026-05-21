@@ -1355,9 +1355,27 @@
     if (subBtn1) { subBtn1.onclick = () => { if (subBtn1.classList.contains('subscribed')) { subBtn1.classList.remove('subscribed'); subBtn1.textContent = 'Subscribe'; } else { subBtn1.classList.add('subscribed'); subBtn1.textContent = 'Subscribed'; } }; }
     if (subBtn2) { subBtn2.onclick = () => { if (subBtn2.classList.contains('subscribed')) { subBtn2.classList.remove('subscribed'); subBtn2.textContent = 'Subscribe'; } else { subBtn2.classList.add('subscribed'); subBtn2.textContent = 'Subscribed'; } }; }
 
-    // YouTube Like Buttons
-    document.querySelectorAll('.like-btn1, .like-btn2').forEach(btn => { btn.onclick = function() { if (this.classList.contains('liked')) { this.classList.remove('liked'); const html = this.innerHTML; const count = parseInt(html.match(/\d+(?:\.\d+)?[K]?/)[0]); this.innerHTML = html.replace(count, count.toString().replace('K', '') - 1 + 'K'); } else { this.classList.add('liked'); const html = this.innerHTML; const count = parseInt(html.match(/\d+(?:\.\d+)?[K]?/)[0]); this.innerHTML = html.replace(count, (parseInt(count.toString().replace('K', '')) + 1) + 'K'); } }; });
-
+    // // YouTube Like Buttons - Simple toggle (NO number change)
+document.querySelectorAll('.like-btn1, .like-btn2').forEach(btn => {
+    // Store the original number (1.2M or 892K) once
+    const originalHtml = btn.innerHTML;
+    const numberMatch = originalHtml.match(/[\d\.]+[KM]?/);
+    const originalNumber = numberMatch ? numberMatch[0] : '1.2M';
+    
+    btn.onclick = function(e) {
+        e.stopPropagation();
+        if (this.classList.contains('liked')) {
+            this.classList.remove('liked');
+            // Restore outline icon, keep same number
+            this.innerHTML = `<i class="far fa-thumbs-up"></i> ${originalNumber}`;
+        } else {
+            this.classList.add('liked');
+            // Solid blue icon, keep same number
+            this.innerHTML = `<i class="fas fa-thumbs-up" style="color:#3B82F6;"></i> ${originalNumber}`;
+        }
+    };
+});
+      
     // View More Comments for YouTube 2
     const viewMore2 = document.getElementById('viewMoreBtn2');
     if (viewMore2) { 
