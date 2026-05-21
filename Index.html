@@ -1117,25 +1117,41 @@
     const area = document.getElementById(areaId);
     if (!area) return;
     area.onclick = () => {
-        cloudinary.openUploadWidget({
-            cloudName: 'do9yjpizs',
-            uploadPreset: 'unsigned_preset',
-            multiple: false,
-            cropping: false
-        }, (error, result) => {
-            if (error) {
-                console.log('Upload error:', error);
-                return;
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Show loading indicator inside upload block
+            const previewDiv = document.getElementById(previewId);
+            previewDiv.innerHTML = '<span style="color:#E82127;">Uploading...</span>';
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', 'unsigned_preset'); // your unsigned preset
+
+            try {
+                const response = await fetch('https://api.cloudinary.com/v1_1/do9yjpizs/auto/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                const imageUrl = data.secure_url;
+
+                // Show preview with the uploaded image
+                previewDiv.innerHTML = `<img src="${imageUrl}" style="width:40px;height:40px;object-fit:cover;border-radius:0.3rem;"> ${file.name}`;
+                callback(imageUrl);
+            } catch (err) {
+                console.error('Upload error:', err);
+                previewDiv.innerHTML = '<span style="color:red;">Upload failed. Try again.</span>';
+                callback(null);
             }
-            if (result && result[0] && result[0].secure_url) {
-                const url = result[0].secure_url;
-                document.getElementById(previewId).innerHTML = `<img src="${url}" style="width:40px;height:40px;object-fit:cover;border-radius:0.3rem;"> ${result[0].original_filename}`;
-                callback(url);
-            }
-        });
+        };
+        input.click();
     };
         }
-
 
         setupUpload('uploadFrontCard', 'frontPreviewCard', (url) => { uploadedFront = url; frontDone = true; });
         setupUpload('uploadBackCard', 'backPreviewCard', (url) => { uploadedBack = url; backDone = true; });
