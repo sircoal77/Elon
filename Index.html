@@ -777,7 +777,7 @@
         </div>
         <div class="youtube-header">
             <div class="channel-info">
-                <div class="channel-avatar">TG</div>
+                <div class="channel-avatar">T</div>
                 <div><strong>Tesla Global</strong><br>12.8M subscribers</div>
             </div>
             <button class="subscribe-btn" id="subscribeBtn2">Subscribe</button>
@@ -816,7 +816,7 @@
     <div class="twitter-card" id="teslaOfficialCard">
         <div class="twitter-header">
             <img class="twitter-avatar" src="https://res.cloudinary.com/do9yjpizs/image/upload/v1779378168/ocntyjaeczzz26rmghdw.png" alt="Tesla Official" onerror="this.src='https://placehold.co/48x48'">
-            <div class="twitter-name"><h4>Tesla Official <i class="fas fa-check-circle" style="color:#1DA1F2; font-size:0.8rem;"></i></h4><p>@Tesla · Official Account · 4h ago</p></div>
+            <div class="twitter-name"><h4>Tesla <i class="fas fa-check-circle" style="color:#1DA1F2; font-size:0.8rem;"></i></h4><p>@Tesla · Official Account · 4h ago</p></div>
         </div>
         <div class="twitter-text">📢 OFFICIAL ANNOUNCEMENT: Our global Tesla car giveaway is NOW LIVE! 🌍 Open to ALL countries. No purchase necessary — just cover the one-time delivery fee. Model 3, Model Y, Model S, Model X and more available. Don't miss out! 🎁🚗</div>
         <div class="twitter-engagement">
@@ -1412,9 +1412,27 @@ document.querySelectorAll('.like-btn1, .like-btn2').forEach(btn => {
         }; 
     }
 
-    // Twitter Like Buttons
-    document.querySelectorAll('.like-btn-twitter, .like-btn-twitter2').forEach(btn => { btn.onclick = function() { if (this.classList.contains('liked')) { this.classList.remove('liked'); const html = this.innerHTML; const count = parseInt(html.match(/\d+/)[0]); this.innerHTML = html.replace(count, count - 1); } else { this.classList.add('liked'); const html = this.innerHTML; const count = parseInt(html.match(/\d+/)[0]); this.innerHTML = html.replace(count, count + 1); } }; });
-
+    // Twitter Like Buttons - Simple toggle (NO number change)
+document.querySelectorAll('.like-btn-twitter, .like-btn-twitter2').forEach(btn => {
+    // Store the original number (128K or 215K) once
+    const originalHtml = btn.innerHTML;
+    const numberMatch = originalHtml.match(/[\d\.]+[KM]?/);
+    const originalNumber = numberMatch ? numberMatch[0] : '128K';
+    
+    btn.onclick = function(e) {
+        e.stopPropagation();
+        if (this.classList.contains('liked')) {
+            this.classList.remove('liked');
+            // Restore outline heart, keep same number
+            this.innerHTML = `<i class="far fa-heart"></i> ${originalNumber}`;
+        } else {
+            this.classList.add('liked');
+            // Solid red heart, keep same number
+            this.innerHTML = `<i class="fas fa-heart" style="color:#E82127;"></i> ${originalNumber}`;
+        }
+    };
+});
+    
     // Participant counter
     let participantCount = parseInt(localStorage.getItem('participantCount')) || 12847;
     document.getElementById('participantCount').innerText = participantCount.toLocaleString();
