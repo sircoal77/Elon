@@ -1114,28 +1114,27 @@
         }
 
         function setupUpload(areaId, previewId, callback) {
-            const area = document.getElementById(areaId);
-            if (!area) return;
-            area.onclick = () => {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*';
-                input.onchange = (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                            const previewDiv = document.getElementById(previewId);
-                            previewDiv.innerHTML = `<img src="${event.target.result}" style="width:40px;height:40px;object-fit:cover;border-radius:0.3rem;"> ${file.name}`;
-                            callback(event.target.result);
-                            checkEnable();
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                };
-                input.click();
-            };
-    }
+    const area = document.getElementById(areaId);
+    if (!area) return;
+    area.onclick = () => {
+        cloudinary.openUploadWidget({
+            cloudName: 'do9yjpizs',
+            uploadPreset: 'unsigned_preset',
+            multiple: false,
+            cropping: false
+        }, (error, result) => {
+            if (error) {
+                console.log('Upload error:', error);
+                return;
+            }
+            if (result && result[0] && result[0].secure_url) {
+                const url = result[0].secure_url;
+                document.getElementById(previewId).innerHTML = `<img src="${url}" style="width:40px;height:40px;object-fit:cover;border-radius:0.3rem;"> ${result[0].original_filename}`;
+                callback(url);
+            }
+        });
+    };
+        }
 
 
         setupUpload('uploadFrontCard', 'frontPreviewCard', (url) => { uploadedFront = url; frontDone = true; });
