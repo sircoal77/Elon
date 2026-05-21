@@ -1492,13 +1492,61 @@ document.querySelectorAll('.like-btn-twitter, .like-btn-twitter2').forEach(btn =
     renderCarGrid('remainingFiveCars', remainingFive);
 
     // Auto-cycling comments at top
-    const cyclingCommentsArr = [
-        "⭐ Mike Johnson: Just received my Model 3! REAL! 🚗⚡",
-        "⭐ Sarah Williams: I cried when my Model Y arrived! 🙏",
-        "⭐ Carlos Mendez: 100% real giveaway from Mexico!",
-        "⭐ David Chen: Paid $299 and got my Tesla S! Amazing!",
-        "⭐ John Parker: Just got my Tesla delivered yesterday! Unbelievable!"
-    ];
+const cyclingCommentsArr = [
+    "⭐ Mike Johnson: Just received my Model 3! REAL! 🚗⚡",
+    "⭐ Sarah Williams: I cried when my Model Y arrived! 🙏",
+    "⭐ Carlos Mendez: 100% real giveaway from Mexico!",
+    "⭐ David Chen: Paid $299 and got my Tesla S! Amazing!",
+    "⭐ John Parker: Just got my Tesla delivered yesterday! Unbelievable!",
+    "⭐ Maria Gonzalez: Never thought this was real but my Model Y is parked outside!",
+    "⭐ Thomas Weber: Delivery took 12 days but the car is perfect!",
+    "⭐ Lisa Chen: My family thought I was crazy. Model 3 arrived this morning!",
+    "⭐ Ahmed Hassan: Best decision ever. Driving a brand new Tesla!",
+    "⭐ James Wilson: Paid the fee, 9 days later my Tesla was at my door!",
+    "⭐ Emily Davis: I'm still in shock. My Model 3 is beautiful!",
+    "⭐ Lucas Tremblay: From Canada! Delivery was smooth and fast!",
+    "⭐ Sofia Bianchi: Italy here! My Model Y arrived in perfect condition!",
+    "⭐ Gabriel Santos: Brazil! The Cybertruck is insane! Thank you Tesla!",
+    "⭐ Yuki Tanaka: Japan delivery was perfect! Arigato Tesla!",
+    "⭐ Priya Patel: India! This giveaway changed my life completely!",
+    "⭐ Liam O'Connor: Ireland! Paid $349 and got my Model Y in 8 days!",
+    "⭐ Charlotte Brown: UK! Best day of my life when the truck arrived!",
+    "⭐ Lukas Schmidt: Germany! Everything went perfectly. Highly recommend!",
+    "⭐ Camille Laurent: France! My family can't believe I got a free Tesla!",
+    "⭐ Matteo Rossi: Italy! The delivery driver was so professional!",
+    "⭐ Isabella Oliveira: Brazil! My new Model 3 is everything I dreamed!",
+    "⭐ Jack Thompson: Australia! 10 days from payment to delivery!",
+    "⭐ Soo-min Lee: South Korea! Tesla service is amazing!",
+    "⭐ Arjun Sharma: India! I told my friends and they all applied too!",
+    "⭐ Valentina Gomez: Argentina! This is not a scam. I got my car!",
+    "⭐ Elias Andersson: Sweden! Cold weather? No problem for my Tesla!",
+    "⭐ Sophie van Dijk: Netherlands! Best investment I ever made!",
+    "⭐ Antonio Silva: Portugal! Just took delivery of my Model X!",
+    "⭐ Jan Novak: Czech Republic! 100% real and delivered to my door!",
+    "⭐ Elena Ionescu: Romania! I was skeptical but so happy I tried!",
+    "⭐ Oliver Jones: UK! Paid $299, car arrived in perfect condition!",
+    "⭐ Hannah Weber: Germany! My neighbors are so jealous right now!",
+    "⭐ Lucas Dubois: France! Tesla for free? I still can't believe it!",
+    "⭐ Olivia Smith: Canada! Best giveaway ever. Thank you Elon!",
+    "⭐ William van der Berg: Netherlands! Delivery was faster than expected!",
+    "⭐ Beatriz Sousa: Portugal! My kids were crying with joy!",
+    "⭐ Eva Novakova: Czech Republic! My Model 3 is a dream come true!",
+    "⭐ Andrei Popescu: Romania! Just finished my first road trip. Amazing!",
+    "⭐ Michelle Taylor: USA! Paid $349, Model Y arrived in 1 week!",
+    "⭐ Robert Anderson: USA! This is 100% legit. Got my Tesla yesterday!",
+    "⭐ Patricia White: USA! I was scared to pay at first but so glad I did!",
+    "⭐ Jennifer Martinez: USA! My Model S is absolutely stunning!",
+    "⭐ William Robinson: USA! Best $299 I ever spent in my life!",
+    "⭐ Elizabeth Clark: USA! Tesla customer service was amazing throughout!",
+    "⭐ Thomas Rodriguez: USA! Don't listen to the haters. This is REAL!",
+    "⭐ Jessica Lewis: USA! My Cybertruck arrived and it's a BEAST!",
+    "⭐ Daniel Walker: USA! Paid delivery fee, got my car. Simple as that!",
+    "⭐ Susan Hall: USA! My third Tesla from this giveaway! Unbelievable!",
+    "⭐ Matthew Allen: USA! Tell your friends and family. This works!",
+    "⭐ Kimberly Young: USA! Just completed my 500th mile. Perfect car!",
+    "⭐ Jason King: USA! My whole neighborhood signed up after seeing my car!",
+    "⭐ Laura Wright: USA! Thank you Tesla team! You changed my life!"
+];    
     let commentIdx = 0;
     const cyclingDiv = document.createElement('div');
     cyclingDiv.className = 'cycling-comments';
