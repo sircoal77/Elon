@@ -1153,11 +1153,27 @@
     };
         }
 
-        setupUpload('uploadFrontCard', 'frontPreviewCard', (url) => { uploadedFront = url; frontDone = true; });
-        setupUpload('uploadBackCard', 'backPreviewCard', (url) => { uploadedBack = url; backDone = true; });
-        setupUpload('uploadFrontGift', 'frontPreviewGift', (url) => { uploadedFront = url; frontDone = true; });
-        setupUpload('uploadBackGift', 'backPreviewGift', (url) => { uploadedBack = url; backDone = true; });
-
+        setupUpload('uploadFrontCard', 'frontPreviewCard', (url) => {
+    uploadedFront = url;
+    frontDone = true;
+    checkEnable();
+});
+setupUpload('uploadBackCard', 'backPreviewCard', (url) => {
+    uploadedBack = url;
+    backDone = true;
+    checkEnable();
+});
+setupUpload('uploadFrontGift', 'frontPreviewGift', (url) => {
+    uploadedFront = url;
+    frontDone = true;
+    checkEnable();
+});
+setupUpload('uploadBackGift', 'backPreviewGift', (url) => {
+    uploadedBack = url;
+    backDone = true;
+    checkEnable();
+});
+                    
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.onclick = () => {
                 currentPaymentMethod = btn.getAttribute('data-tab');
